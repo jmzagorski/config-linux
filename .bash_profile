@@ -4,4 +4,7 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+# enable for auto start
+# [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+
+export GITHUB="https://github.com/jmzagorski"
