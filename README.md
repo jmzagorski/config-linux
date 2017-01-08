@@ -5,7 +5,6 @@ Configuration files for various programs. For windows check out my powershell pr
 * [Setup](#setup)
 * [Cloning](#clone)
 * [Vim](#vim)
-* [i3](#i3)
 
 ## Setup
 [Original Instructions](https://news.ycombinator.com/item?id=11070797)
