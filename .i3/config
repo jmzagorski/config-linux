@@ -8,6 +8,11 @@
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
+#
+# Dependencies: compton, feh, rofi, scrot, termite, systat, acpi, imagemagick,
+# i3blocks, i3lock, ttf-font-awesome
+# Need dirs: ~/pictures for wallpaper and ~/pictures/screenshots
+# Optional: adobe-source-code-pro-fonts, adobe-source-sands-pro-fonts, 
 
 set $mod Mod1
 
