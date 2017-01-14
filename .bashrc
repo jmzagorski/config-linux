@@ -18,7 +18,7 @@ function aurm {
 
   git clone https://aur.archlinux.org/$1.git ~/builds/$1
   cd ~/builds/$1
-  makepkg PKGBUILD
+  makepkg -si
 }
 
 export -f aurm
