@@ -21,7 +21,7 @@ function aurm() {
   cd ~/builds/$1
   if [[ "${2}" = "make" ]]; then
     echo "Making package";
-    makepkg PKGBUILD
+    makepkg -si
   fi
 }
 
