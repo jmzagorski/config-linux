@@ -112,16 +112,17 @@ bindsym $mod+a focus parent
 # Name the workspaces - use fontawesome
 # firefox web
 set $tag1 "1 &#xf269;"
+# web/other testing
+set $tag2 "2 &#xf0c3;"
 # github
-set $tag2 "2 &#xf09b;"
+set $tag3 "3 &#xf09b;"
 # database
-set $tag3 "3 &#xf1c0;"
+set $tag4 "4 &#xf1c0;"
 # pen testing
-set $tag4 "4 &#xf21b;"
+set $tag5 "5 &#xf21b;"
 # terminal
-set $tag5 "5 &#xf120;"
+set $tag6 "6 &#xf120;"
 # code
-set $tag6 "6 &#xf121;"
 set $tag7 "7 &#xf121;"
 set $tag8 "8 &#xf121;"
 set $tag9 "9 &#xf121;"
