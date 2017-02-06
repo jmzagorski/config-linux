@@ -26,33 +26,29 @@ endif
 
 let mapleader = ','
 let g:mapleader = ','
-" don't redraw while executing macros
-set lazyredraw
-set fileformats=unix,mac,dos " Automatic end-of-file format detection
-" set autoindent               " automatic indent new lines
-set smartindent              " be smart about it
-set expandtab                " expand tabs to spaces
-set smarttab                 " no tabs
+set lazyredraw                               " don't redraw while executing macros
+set fileformats=unix,mac,dos                 " Automatic end-of-file format detection
+"set autoindent                              " automatic indent new lines
+set smartindent                              " be smart about it
+set expandtab                                " expand tabs to spaces
+set smarttab                                 " no tabs
 set tabstop=2
-"imp: keep next 2 lines the same values for spaces
-set softtabstop=2            " backspace will have same behavior
-set shiftwidth=2             " when pressing the < and > key
-" Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-" sync with clipboard
-set clipboard^=unnamed,unnamedplus
-"allow buffer switching without saving
-set hidden
-" reload files changed outside vim
-set autoread 
+"important: keep next 2 lines the same values for spaces
+set softtabstop=2                            " backspace will have same behavior
+set shiftwidth=2                             " when pressing the < and > key
+set backspace=indent,eol,start               " Allow backspacing over everything in insert mode
+set clipboard^=unnamed,unnamedplus           " sync with clipboard
+set hidden                                   " allow buffer switching without saving
+set autoread                                 " reload files changed outside vim 
 set showcmd
 set tags=tags;/
 set showfulltag
 set modeline
 set modelines=5
-set visualbell t_vb=         " No beep sound
+set visualbell t_vb=                         " No beep sound
 set noerrorbells
 set novisualbell
+set history=1000                             " number of command lines to remember default is 20
 " ---------------------- SEARCHING ----------------------
 set ignorecase
 set smartcase
