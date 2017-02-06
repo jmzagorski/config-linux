@@ -6,14 +6,26 @@ filetype plugin indent off
 if has('vim_starting')
   set nocompatible
   set runtimepath+=$HOME/.vim/bundle/repos/github.com/Shougo/dein.vim/
-  set runtimepath+=$HOME/.vim/rc/plugins/
+
+  "" FIXME: bug 
+  if has('win32') || has('win64')
+    set runtimepath+=$HOME/.vim/rc
+  else
+    set runtimepath+=$HOME/.vim/rc/plugins/
+  endif
+
 endif
 
 call dein#begin(expand('$HOME/.vim/bundle/')) " plugins' root path
 
 call dein#add('Shougo/dein.vim')
 
-runtime! rc/plugins/*.vim
+"" FIXME: bug 
+if has('win32') || has('win64')
+  runtime! plugins/*.vim
+else
+  runtime! rc/plugins/*.vim
+endif
 
 call dein#end()
 
