@@ -24,7 +24,6 @@ set ttimeoutlen=200
 
 set mouse=a                                         "enable mouse
 set mousehide                                       "hide when characters are typed
-set history=1000                                    "number of command lines to remember
 set ttyfast                                         "assume fast terminal connection
 set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
 
