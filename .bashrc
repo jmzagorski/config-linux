@@ -29,3 +29,5 @@ export -f aurm
 
 shopt -s dotglob
 
+GITHUB="https://github.com/jmzagorski"
+
