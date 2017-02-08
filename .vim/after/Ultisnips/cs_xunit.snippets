@@ -1,0 +1,81 @@
+snippet xfact "xunit fact test"
+[Fact]
+public void Should${1:TestName}()
+{
+	// Arrange
+	${0}
+
+	// Act
+
+	// Assert
+}
+endsnippet
+
+snippet xtheoryinline "xunit theory with inline data"
+[Theory]
+[InlineData(${3:Args})]
+public void Should${1:TestName}(${2:Args})
+{
+	// Arrange
+	${0}
+
+	// Act
+
+	// Assert
+}
+endsnippet
+
+snippet xfactthrow "xunit fact test checking for exception"
+[Fact]
+public void ShouldThrow${1:TestName}()
+{
+	// Act
+	var ex = Record.Exception(() => ${2:Action});
+
+	// Assert
+	Assert.IsType<${3:Exception}>(ex);${0}
+}
+endsnippet
+
+snippet xtheorythrow "xunit theory test to check when multiple args should throw"
+[Theory, MemberData(nameof(${5:ArgName}))]
+public void ShouldThrow${1:TestName}(${2:Args})
+{
+	// Act
+	var ex = Record.Exception(() => ${3:Action});
+
+	// Assert
+	Assert.IsType<${4:Exception}>(ex);${0}
+}
+
+public static IEnumerable<object[]> $5
+{
+	get
+	{
+		yield return new object[] { ${6:arg} };
+	}
+}
+endsnippet
+
+snippet xtheorydata "xunit theory test with data"
+[Theory, MemberData(nameof(${3:ArgName}))]
+public void Should${1:TestName}(${2:Args})
+{
+	// Arrange
+
+	// Act
+
+	// Assert
+}
+
+public static IEnumerable<object[]> $3
+{
+	get
+	{
+		return new []
+		{
+			new object[] { ${4:arg} }${0}
+		};
+	}
+}
+endsnippet

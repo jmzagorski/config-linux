@@ -1,0 +1,33 @@
+snippet sp "MSSQL default for creating a stored procedure"
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		  ${1: LastFirst}
+-- Create date: ${2: CreateDate}
+-- Description:	${3: Descr}
+-- =============================================
+CREATE PROCEDURE ${4: schema}.${5: ProcedureName}
+	@${5: param1}
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	${0}
+END
+GO
+endsnippet
+
+snippet vw "MSSQL default for creating a view"
+-- =============================================
+-- Author:		  ${1: LastFirst}
+-- Create date: ${2: CreateDate}
+-- Description:	${3: Descr}
+-- =============================================
+CREATE VIEW ${4: schema}.v${5: ViewName}
+AS
+
+${0}
+endsnippet

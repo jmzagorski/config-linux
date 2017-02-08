@@ -3,6 +3,12 @@
 filetype off
 filetype plugin indent off
 
+" i put plugin overrides here for Ultisnips
+" plus i think this is the default location for linux
+if has('win32') || has('win64')
+  set runtimepath+=$HOME/.vim/after
+endif
+
 if has('vim_starting')
   set nocompatible
   set runtimepath+=$HOME/.vim/bundle/repos/github.com/Shougo/dein.vim/
