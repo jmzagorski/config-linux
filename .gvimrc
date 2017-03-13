@@ -5,7 +5,11 @@ if &t_Co > 2 || has("gui_running")
   set guioptions-=r  " remove right-hand scroll bar
   set guioptions-=L  " remove left-hand scroll bar
   set hlsearch
-  set guifont=Source\ Code\ Pro\ 12 " set Adobe's Source Code Pro font
+  if has('win32') || has('win64')
+    set guifont=Source_Code_Pro:h12 " set Adobe's Source Code Pro font
+  else
+    set guifont=Source\ Code\ Pro\ 12 " set Adobe's Source Code Pro font
+  endif
   if !has('windows')
     set transparency=2 " does not work on windows
   endif
