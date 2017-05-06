@@ -17,11 +17,17 @@ function aurm() {
     mkdir -p ~/builds/$1
   fi
 
-  git clone https://aur.archlinux.org/$1.git ~/builds/$1
-  cd ~/builds/$1
+  giturl=https://aur.archlinux.org/$1.git
+
+  echo "cloning from ${giturl}"
+
+  git clone $giturl ~/builds/$1
+
   if [[ "${2}" = "make" ]]; then
     echo "Making package";
+    cd ~/builds/$1
     makepkg -si
+    cd
   fi
 }
 
