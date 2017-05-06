@@ -39,4 +39,4 @@ set background=dark
 let g:solarized_termcolors=16
 " terminal color
 set t_Co=16
-silent! colorscheme Tomorrow-Night
+silent! colorscheme twilight
