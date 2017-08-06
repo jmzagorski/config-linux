@@ -11,11 +11,12 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 let g:OmniSharp_server_type = 'roslyn'
 
 autocmd VimEnter * call StartServerIfHasGlobalJson()
-autocmd Filetype cs,cshtml,html call SetOmniSharpOptions()
+" autocmd Filetype cs,cshtml,html call SetOmniSharpOptions()
 
 function StartServerIfHasGlobalJson()
-  if !empty(glob("%:p:h/global.json"))
+  if !empty(glob("%:p:h/*.sln"))
     call OmniSharp#StartServerSolution(expand("%:p:h"))
+    call SetOmniSharpOptions()
   endif
 endfunction
 

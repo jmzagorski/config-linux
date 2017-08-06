@@ -11,7 +11,7 @@ endif
 
 if has('vim_starting')
   set nocompatible
-  set runtimepath+=$HOME/.vim/bundle/repos/github.com/Shougo/dein.vim/
+  set runtimepath+=$HOME/.vim/plugin/repos/github.com/Shougo/dein.vim/
 
   "" FIXME: bug 
   if has('win32') || has('win64')
@@ -22,7 +22,7 @@ if has('vim_starting')
 
 endif
 
-call dein#begin(expand('$HOME/.vim/bundle/')) " plugins' root path
+call dein#begin(expand('$HOME/.vim/plugin/')) " plugins' root path
 
 call dein#add('Shougo/dein.vim')
 
