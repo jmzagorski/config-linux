@@ -28,12 +28,7 @@ private readonly $3 $2;
 
 public ${1:`vim_snippets#Filename()`}(${3:Type} ${2:param}${0})
 {
-	if ($2 == null)
-	{
-		throw new ArgumentNullException(nameof($2));
-	}
-
-	this.$2 = $2;
+	this.$2 = $2 ?? throw new ArgumentNullException(nameof($2));
 }
 endsnippet
 

@@ -1,6 +1,6 @@
 snippet xfact "xunit fact test"
 [Fact]
-public void Should${1:TestName}()
+public void ${1:UnitOfWork}_${2:StateUnderTest}_${3:ExpectedBehavior}()
 {
 	// Arrange
 	${0}
@@ -13,8 +13,8 @@ endsnippet
 
 snippet xtheoryinline "xunit theory with inline data"
 [Theory]
-[InlineData(${3:Args})]
-public void Should${1:TestName}(${2:Args})
+[InlineData(${1:Args})]
+public void ${2:UnitOfWork}_${3:StateUnderTest}_${4:ExpectedBehavior}(${5:Args})
 {
 	// Arrange
 	${0}
@@ -27,39 +27,42 @@ endsnippet
 
 snippet xfactthrow "xunit fact test checking for exception"
 [Fact]
-public void ShouldThrow${1:TestName}()
+public void ${1:UnitOfWork}_${2:StateUnderTest}_${3:ExpectedBehavior}()
 {
 	// Act
-	var ex = Record.Exception(() => ${2:Action});
+	var ex = Record.Exception(() => ${4:Action});
 
 	// Assert
-	Assert.IsType<${3:Exception}>(ex);${0}
+	Assert.IsType<${5:Exception}>(ex);${0}
 }
 endsnippet
 
 snippet xtheorythrow "xunit theory test to check when multiple args should throw"
-[Theory, MemberData(nameof(${5:ArgName}))]
-public void ShouldThrow${1:TestName}(${2:Args})
+[Theory, MemberData(nameof(${1:ArgName}))]
+public void ${2:UnitOfWork}_${3:StateUnderTest}_${4:ExceptionThrown}(${5:Args})
 {
+	// Arrange
+	Action shouldThrow = () => ${6:Action};
+
 	// Act
-	var ex = Record.Exception(() => ${3:Action});
+	var ex = Record.Exception(shouldThrow);
 
 	// Assert
-	Assert.IsType<${4:Exception}>(ex);${0}
+	Assert.IsType<${7:Exception}>(ex);${0}
 }
 
-public static IEnumerable<object[]> $5
+public static IEnumerable<object[]> $1
 {
 	get
 	{
-		yield return new object[] { ${6:arg} };
+		yield return new object[] { ${8:arg} };
 	}
 }
 endsnippet
 
 snippet xtheorydata "xunit theory test with data"
-[Theory, MemberData(nameof(${3:ArgName}))]
-public void Should${1:TestName}(${2:Args})
+[Theory, MemberData(nameof(${1:ArgName}))]
+public void ${2:UnitOfWork}_${3:StateUnderTest}_${4:ExpectedBehavior}(${5:Args})
 {
 	// Arrange
 
@@ -68,13 +71,13 @@ public void Should${1:TestName}(${2:Args})
 	// Assert
 }
 
-public static IEnumerable<object[]> $3
+public static IEnumerable<object[]> $1
 {
 	get
 	{
 		return new []
 		{
-			new object[] { ${4:arg} }${0}
+			new object[] { ${6:arg} }${0}
 		};
 	}
 }
