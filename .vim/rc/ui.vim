@@ -3,7 +3,7 @@ set encoding=utf-8
 set showmatch 
 "tens of a second to show matching parentheses
 set matchtime=2 
-colorscheme Tomorrow-Night
+colorscheme gruvbox
 " show line numbers
 set number
 set lazyredraw
