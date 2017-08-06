@@ -1,6 +1,7 @@
 [user]
 	email = jmzagorski@gmail.com
 	name = Jeremy Zagorski
-[http]
 [color "status"]
 	changed = magenta
+[core]
+	editor = 'C:\\Program Files (x86)\\Vim\\vim80\\vim.exe' -f -i NONE
