@@ -2,12 +2,23 @@
 ! ! ROFI Color theme
 ! ! ------------------------------------------------------------------------------
 rofi.color-enabled: true
-rofi.color-window: argb:63000000, argb:0000000, argb:0000000
-rofi.color-active: argb:f000000, #ffffff, argb:10000000, argb:ac586e75, #eee8d5
-rofi.color-normal: argb:f000000, #268bd2, argb:10000000, argb:8d268bd2, #fcfcfb
-rofi.color-urgent: argb:f000000, #dc322f, argb:48eee8d5, argb:a6dc322f, #fdf6e3
-rofi.lines: 5
-rofi.bw: 0
-rofi.eh: 2
+!                  bg       border   separator
+rofi.color-window: #282828, #a89984, #a89984
+!                  bg       fg       bg-alt   hl-bg    hl-fg
+rofi.color-normal: #282828, #ebdbb2, #32302f, #665c54, #fbf1c7
+rofi.color-active: #d79921, #282828, #d79921, #fabd2f, #282828
+rofi.color-urgent: #cc241d, #282828, #cc241d, #fb4934, #282828
+
+rofi.separator-style: solid
+rofi.sidebar-mode: true
+rofi.bw: 1
+rofi.columns: 1
+rofi.padding: 16
+
+rofi.yoffset: 0
+rofi.fake-transparency: false
+rofi.location: 0
 rofi.width: 50
-rofi.fixed-num-lines: 5
+rofi.font: Hasklig 12
+rofi.lines: 15
+rofi.fixed-num-lines: true
