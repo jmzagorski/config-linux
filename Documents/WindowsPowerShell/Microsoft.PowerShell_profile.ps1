@@ -43,3 +43,9 @@ function Diff-WorkTree {
 Set-Alias -Name config -Value Diff-WorkTree -Description "Allows config files to stay home"
 
 #Clear-Host
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}

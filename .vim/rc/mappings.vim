@@ -6,7 +6,6 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> %R getcmdtype() == ':' ? expand('%:r').'.' : '%R'
 
 " source vim file so changes are propgated to opened vim
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 
 " remap buffer switching left/right/up/down
@@ -69,3 +68,13 @@ nnoremap <C-Right> :tabnext<CR>
 " In the quickfix window, <CR> is used to jump to the error under the
 " cursor, so undefine the mapping there.
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
+if !exists("*ReloadConfigs")
+  function ReloadConfigs()
+      :source ~/.vimrc
+      if has("gui_running")
+          :source ~/.gvimrc
+      endif
+  endfunction
+  nmap <silent> <leader>sv call ReloadConfigs()
+endif

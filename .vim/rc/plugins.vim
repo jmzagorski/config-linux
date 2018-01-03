@@ -1,4 +1,5 @@
 " Load all the plugins automatically on startup
+"
 
 filetype off
 filetype plugin indent off

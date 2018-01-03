@@ -78,7 +78,14 @@ set splitright
 set linebreak
 au BufRead *.spark set filetype=html
 " TODO list
-command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
+"command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
+" faster, but requires act plugin
+" command prompt in windows vs linux
+if has('win32') || has('win64')
+  command! Todo Ack! "TODO | FIXME"
+else
+  command! Todo Ack! 'TODO\|FIXME'
+endif
 
 " ---------------------- BACKUPS ----------------------
 " Save your backup files to a less annoying place than the current directory.
