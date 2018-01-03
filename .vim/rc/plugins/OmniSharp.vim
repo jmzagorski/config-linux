@@ -10,15 +10,15 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " rosyln configs
 let g:OmniSharp_server_type = 'roslyn'
 
-autocmd VimEnter * call StartServerIfHasGlobalJson()
-" autocmd Filetype cs,cshtml,html call SetOmniSharpOptions()
+"autocmd VimEnter * call StartServerIfHasGlobalJson()
+autocmd Filetype cs,cshtml,html call SetOmniSharpOptions()
 
-function StartServerIfHasGlobalJson()
-  if !empty(glob("%:p:h/*.sln"))
-    call OmniSharp#StartServerSolution(expand("%:p:h"))
-    call SetOmniSharpOptions()
-  endif
-endfunction
+"function StartServerIfHasGlobalJson()
+""  if !empty(glob("%:p:h/*.sln"))
+""    call OmniSharp#StartServerSolution(expand("%:p:h"))
+""    call SetOmniSharpOptions()
+""  endif
+"endfunction
 
 function SetOmniSharpOptions()
   "Showmatch significantly slows down omnicomplete
