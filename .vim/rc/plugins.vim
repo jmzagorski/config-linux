@@ -1,5 +1,5 @@
 " Load all the plugins automatically on startup
-"
+" DO NOT NAME THE ~/.vim/plugin, dein does not like it
 
 filetype off
 filetype plugin indent off
@@ -12,7 +12,7 @@ endif
 
 if has('vim_starting')
   set nocompatible
-  set runtimepath+=$HOME/.vim/plugin/repos/github.com/Shougo/dein.vim/
+  set runtimepath+=$HOME/.vim/bundle/repos/github.com/Shougo/dein.vim/
 
   "" FIXME: bug 
   if has('win32') || has('win64')
@@ -23,7 +23,8 @@ if has('vim_starting')
 
 endif
 
-call dein#begin(expand('$HOME/.vim/plugin/')) " plugins' root path
+"DO NOT NAME THE DIR PLUGINS. CONFLICTS WITH DEIN
+call dein#begin(expand('$HOME/.vim/bundle/')) " plugins' root path
 
 call dein#add('Shougo/dein.vim')
 

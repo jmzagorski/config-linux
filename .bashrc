@@ -31,9 +31,14 @@ function aurm() {
   fi
 }
 
-export -f aurm
 
 shopt -s dotglob
 
-GITHUB="https://github.com/jmzagorski"
+EDITOR="vim"
+
+export GITHUB="https://github.com/jmzagorski"
+export -f aurm
+export VISUAL=$EDITOR
+export SYSTEMD_EDITOR=$EDITOR
+export SUDO_EDITOR=$EDITOR
 
