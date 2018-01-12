@@ -40,3 +40,6 @@ let g:solarized_termcolors=16
 " terminal color
 set t_Co=16
 silent! colorscheme gruvbox
+
+set noerrorbells
+set vb t_vb=
