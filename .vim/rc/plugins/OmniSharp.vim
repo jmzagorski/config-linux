@@ -1,6 +1,11 @@
 call dein#add('OmniSharp/omnisharp-vim')
 let g:OmniSharp_selecter_ui = 'ctrlp'
 
+" for some reason it was not finding the correct file. my win64 has .cmd, but
+" the autoload/OmniSharp/util.vim does not use that, wtf?
+" FIXME
+let g:OmniSharp_server_path= expand('$HOME/.vim/bundle/.cache/.vimrc/.dein/omnisharp-roslyn//artifacts/scripts/OmniSharp.Http.cmd')
+
 "can set preview here also but i found it causes flicker
 set completeopt=longest,menuone
 
