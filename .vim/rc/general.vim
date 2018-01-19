@@ -50,8 +50,8 @@ set noerrorbells
 set novisualbell
 set history=1000                             " number of command lines to remember default is 20
 " ---------------------- SEARCHING ----------------------
-set ignorecase
-set smartcase
+set ignorecase " ignore case on searching
+set smartcase " do not ignore case when capitalization are in search
 set noswapfile
 set incsearch
 " hlsearch is in .gvimrc
