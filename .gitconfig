@@ -4,4 +4,6 @@
 [color "status"]
 	changed = magenta
 [core]
-	editor = 'C:\\Program Files (x86)\\Vim\\vim80\\vim.exe' -f -i NONE
+	editor = C:\\Windows\\vim.bat
+[init]
+	templatedir = ~/.git_template
