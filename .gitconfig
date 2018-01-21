@@ -3,7 +3,5 @@
 	name = Jeremy Zagorski
 [color "status"]
 	changed = magenta
-[core]
-	editor = C:/Windows/vim.bat
 [init]
 	templatedir = ~/.git_template
