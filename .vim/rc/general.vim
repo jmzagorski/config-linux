@@ -5,7 +5,10 @@ if v:progname =~? "evim"
 endif
 
 " Get the defaults that most users want.
-source $VIMRUNTIME/defaults.vim
+let s:vim_defaults = expand('$VIMRUNTIME/defaults.vim')
+if filereadable(s:vim_defaults)
+  execute 'source ' . s:vim_defaults
+endif
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -17,11 +20,6 @@ else
   endif
 endif
 
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-if has('syntax') && has('eval')
-  packadd matchit
-endif
 " ----------------------------------------------------------------
 
 let mapleader = ','
