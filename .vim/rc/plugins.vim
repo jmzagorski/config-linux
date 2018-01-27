@@ -36,6 +36,7 @@ else
 endif
 
 call dein#end()
+call dein#save_state()
 
 filetype plugin indent on
 syntax on
