@@ -27,8 +27,8 @@ set mousehide                                       "hide when characters are ty
 set ttyfast                                         "assume fast terminal connection
 set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
 
-" no lines longer than  cols, with a a bar down the 80th column
-set textwidth=80
+" auto wrap lines at 80
+"set textwidth=80
 " make a mark for column 80
 set colorcolumn=80
 
@@ -38,19 +38,34 @@ highlight ErrorMsg ctermbg=red ctermfg=white guibg=#592929
 highlight ExtraWhitespace ctermbg=grey guibg=grey
 
 if has('matchadd')
-    :au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
-    :au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
+  :au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
+  :au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
 else
-    :au BufRead,BufNewFile * syntax match ExtraWhitespace /\s\+$/
-    :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
+  :au BufRead,BufNewFile * syntax match ExtraWhitespace /\s\+$/
+  :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
 endif
 
-"function Splitresize()
-"    let hmax = max([winwidth(0), float2nr(&columns*0.66), 85])
-"    "let hmax = max([winwidth(0), float2nr(&columns*0.66), 90])
-"    let vmax = max([winheight(0), float2nr(&lines*0.66), 25])
-"    exe "vertical resize" . (min([hmax, 85]))
-"    "exe "vertical resize" . (min([hmax, 140]))
-"    "exe "resize" . (min([vmax, 60]))
-""    exe "resize" . (min([vmax, 40]))
-"endfunction
+"" Terminal setttings {{{
+if !has("gui_running")
+  set noerrorbells novisualbell t_vb=
+  set termencoding=utf8
+  set term=xterm
+  set t_ut= " setting for looking properly in tmux
+  set t_BE= " disable bracketed-paste mode
+  let &t_Co = 256
+  " del key will be backspace, so stop that from happening
+  inoremap <Char-0x07F> <BS>
+  nnoremap <Char-0x07F> <BS>
+  " src: https://conemu.github.io/en/VimXterm.html
+  " trick to support 256 colors and scroll in conemu
+  let &t_AB="\e[48;5;%dm"
+  let &t_AF="\e[38;5;%dm"
+  inoremap <esc>[62~ <c-x><c-e>
+  inoremap <esc>[63~ <c-x><c-y>
+  nnoremap <esc>[62~ 3<c-e>
+  nnoremap <esc>[63~ 3<c-y>
+  if has('win32') || has('win64')
+    " this gets rid of funng characters
+    !chcp 65001
+  endif
+endif
