@@ -1,5 +1,5 @@
 call dein#add('SirVer/ultisnips')
-let g:UltiSnipsExpandTrigger="<c-cr>"
-let g:UltiSnipsJumpForwardTrigger="<c-cr>"
-let g:UltiSnipsJumpBackwardTrigger="<s-cr>"
+let g:UltiSnipsExpandTrigger="<F5>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
