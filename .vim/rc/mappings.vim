@@ -69,12 +69,10 @@ nnoremap <C-Right> :tabnext<CR>
 " cursor, so undefine the mapping there.
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
-if !exists("*ReloadConfigs")
-  function ReloadConfigs()
-      :source ~/.vimrc
-      if has("gui_running")
-          :source ~/.gvimrc
-      endif
-  endfunction
-  nmap <silent> <leader>sv call ReloadConfigs()
-endif
+function! ReloadConfigs()
+    :source ~/.vimrc
+    if has("gui_running")
+        :source ~/.gvimrc
+    endif
+endfunction
+nmap <silent> <leader>sv call ReloadConfigs()
