@@ -80,9 +80,9 @@ au BufRead *.spark set filetype=html
 " faster, but requires act plugin
 " command prompt in windows vs linux
 if has('win32') || has('win64')
-  command! Todo Ack! "TODO | FIXME"
+  command! Todo Ack! "TODO | FIXME | @todo"
 else
-  command! Todo Ack! 'TODO\|FIXME'
+  command! Todo Ack! 'TODO\|FIXME\|@todo'
 endif
 
 " ---------------------- BACKUPS ----------------------
