@@ -3,98 +3,79 @@ call dein#add('OmniSharp/omnisharp-vim', {'on_ft':['cs','csharp']})
 " OmniSharp won't work without this setting
 filetype plugin on
 
-let g:OmniSharp_selecter_ui = 'ctrlp'
-
-" dont start automatically, which find a solution file, this wont allow
-" multiple solutions. use the path instead
-let g:Omnisharp_stop_server = 0
-
-" for some reason it was not finding the correct file. my win64 has .cmd, but
-" the autoload/OmniSharp/util.vim does not use that, wtf?
-" FIXME
-let g:OmniSharp_server_path= expand('$HOME/.vim/bundle/repos/github.com/OmniSharp/omnisharp-vim/omnisharp-roslyn/artifacts/scripts/OmniSharp.Http.cmd')
-
-"exec '!' . g:OmniSharp_server_path -s s:get_profile_path(expand('%:p:h'))
-
-set completeopt=preview
-let g:OmniSharp_want_snippet=1
-
-"makes enter work like C-y, confirming a popup selection
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" rosyln configs
 let g:OmniSharp_server_type = 'roslyn'
-
-"Showmatch significantly slows down omnicomplete
-"when the first match contains parentheses.
-set noshowmatch
-setlocal omnifunc=OmniSharp#Complete
-setlocal tabstop=2
-setlocal softtabstop=2
-setlocal shiftwidth=2
-" Builds can also run asynchronously with vim-dispatch installed
-nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
-
-nnoremap gd :OmniSharpGotoDefinition<cr>
-nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-nnoremap <leader>ft :OmniSharpFindType<cr>
-nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-nnoremap <leader>fu :OmniSharpFindUsages<cr>
-
-nnoremap <leader>fm :OmniSharpFindMembers<cr>
-" cursor can be anywhere on the line containing an issue
-nnoremap <leader>x  :OmniSharpFixIssue<cr>
-nnoremap <leader>fx :OmniSharpFixUsings<cr>
-nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-nnoremap <leader>dc :OmniSharpDocumentation<cr>
-"navigate up by method/property/field
-nnoremap <leader>k :OmniSharpNavigateUp<cr>
-"navigate down by method/property/field
-nnoremap <leader>j :OmniSharpNavigateDown<cr>
-
-" Contextual code actions (requires CtrlP or unite.vim)
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" Run code actions with text selected in visual mode to extract method
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-
-" rename with dialog
-nnoremap <leader>nm :OmniSharpRename<cr>
-" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-
-" Force OmniSharp to reload the solution. Useful when switching branches etc.
-nnoremap <leader>rs :OmniSharpReloadSolution<cr>
-nnoremap <leader>cf :OmniSharpCodeFormat<cr>
-" Load the current .cs file to the nearest project
-nnoremap <leader>tp :OmniSharpAddToProject<cr>
-
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
-
-" Add syntax highlighting for types and interfaces
-nnoremap <leader>th :OmniSharpHighlightTypes<cr>
-
-nnoremap <leader>rt :OmniSharpRunTests<cr>
-nnoremap <leader>rf :OmniSharpRunTestFixture<cr>
-nnoremap <leader>ra :OmniSharpRunAllTests<cr>
-nnoremap <leader>rl :OmniSharpRunLastTests<cr>
+let g:OmniSharp_server_path= expand('$SYSTEMDRIVE\bin\omnisharp\omnisharp.http-win-x86') "$HOME/.vim/bundle/repos/github.com/OmniSharp/omnisharp-vim/omnisharp-roslyn/artifacts/scripts/OmniSharp.Http.cmd')
+" Timeout in seconds to wait for a response from the server
+let g:OmniSharp_timeout = 1
+let g:OmniSharp_selecter_ui = 'ctrlp'
+let g:Omnisharp_stop_server = 1  " Ask whether to stop the server on exit
+set completeopt=longest,menuone,preview
+" Set desired preview window height for viewing documentation.
+" You might also want to look at the echodoc plugin.
+set previewheight=5
+let g:OmniSharp_want_snippet=1
+let g:syntastic_cs_checkers = ['code_checker']
 
 augroup omnisharp_commands
-  autocmd!
+    autocmd!
 
-  command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+    " Synchronous build (blocks Vim)
+    "autocmd FileType cs nnoremap <buffer> <F5> :wa!<CR>:OmniSharpBuild<CR>
+    " Builds can also run asynchronously with vim-dispatch installed
+    autocmd FileType cs nnoremap <buffer> <Leader>b :wa!<CR>:OmniSharpBuildAsync<CR>
+    " Automatic syntax check on events (TextChanged requires Vim 7.4)
+    autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
 
-  " automatic syntax check on events (TextChanged requires Vim 7.4)
-  autocmd BufEnter,TextChanged,InsertLeave *.cs,*.cshtml SyntasticCheck
+    " Automatically add new cs files to the nearest project on save
+    autocmd BufWritePost *.cs call OmniSharp#AddToProject()
 
-  " Automatically add new cs files to the nearest project on save
-  "
-  autocmd BufWritePost *.cs,*.cshtml call OmniSharp#AddToProject()
+    " Show type information automatically when the cursor stops moving
+    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 
-  "show type information automatically when the cursor stops moving
-  autocmd CursorHold *.cs,*.cshtml call OmniSharp#TypeLookupWithoutDocumentation()
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>ft :OmniSharpFindType<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    " Cursor can be anywhere on the line containing an issue
+    autocmd FileType cs nnoremap <buffer> <Leader>x  :OmniSharpFixIssue<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
 augroup END
 
-set updatetime=500
-" Remove 'Press Enter to continue' message when type information is longer than one line.
-set cmdheight=2
+" Contextual code actions (requires fzf, CtrlP or unite.vim)
+nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+" Run code actions with text selected in visual mode to extract method
+xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR>
+nnoremap <F2> :OmniSharpRename<CR>
+" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
+command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+" Force OmniSharp to reload the solution. Useful when switching branches etc.
+nnoremap <Leader>rl :OmniSharpReloadSolution<CR>
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+" Load the current .cs file to the nearest project
+nnoremap <Leader>tp :OmniSharpAddToProject<CR>
+
+" Start the omnisharp server for the current solution
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
+nnoremap <Leader>sp :OmniSharpStopServer<CR>
+
+" Add syntax highlighting for types and interfaces
+nnoremap <Leader>th :OmniSharpHighlightTypes<CR>
+
+" Enable snippet completion, requires completeopt-=preview
+let g:OmniSharp_want_snippet=1
