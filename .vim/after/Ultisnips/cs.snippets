@@ -26,6 +26,9 @@ endsnippet
 snippet ctorp "Constructor with one private readonly arg" b
 private readonly $3 $2;
 
+/// <summary>
+/// Initializes a new instance of the ${1:`vim_snippets#Filename()`} class.
+/// </summary>
 public ${1:`vim_snippets#Filename()`}(${3:Type} ${2:param}${0})
 {
 	this.$2 = $2 ?? throw new ArgumentNullException(nameof($2));
@@ -38,4 +41,31 @@ if (${1:param} == null)
 	throw new ArgumentNullException(nameof($1));
 }
 ${0}
+endsnippet
+
+# inline xml documentation
+snippet <ctor "creates the tags for constructor comments"
+/// <summary>
+/// Initializes a new instance of the ${1:`vim_snippets#Filename('$1', 'name')`} class.
+/// </summary>
+endsnippet
+
+snippet <pr "param reference snippet"
+<paramref name="${1}"/>
+endsnippet
+
+snippet <v
+<value>${1}</value>
+endsnippet
+
+snippet <ie
+<example>${1}</example>
+endsnippet
+
+snippet <sa
+<seealso cref="${1}"/>
+endsnippet
+
+snippet <ty
+<typeparam name="${1}">${2:$1}</typeparam>
 endsnippet

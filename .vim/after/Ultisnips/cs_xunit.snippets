@@ -27,10 +27,13 @@ endsnippet
 
 snippet xfactthrow "xunit fact test checking for exception"
 [Fact]
-public void ${1:UnitOfWork}_${2:StateUnderTest}_${3:ExpectedBehavior}()
+public void ${1:UnitOfWork}_${2:StateUnderTest}_${3:ExceptionThrown}()
 {
+	// Arrange
+	void shouldthrow() => ${4:Action}
+
 	// Act
-	var ex = Record.Exception(() => ${4:Action});
+	var ex = Record.Exception($4});
 
 	// Assert
 	Assert.IsType<${5:Exception}>(ex);${0}
@@ -42,7 +45,7 @@ snippet xtheorythrow "xunit theory test to check when multiple args should throw
 public void ${2:UnitOfWork}_${3:StateUnderTest}_${4:ExceptionThrown}(${5:Args})
 {
 	// Arrange
-	Action shouldThrow = () => ${6:Action};
+	void shouldThrow() => ${6:Action};
 
 	// Act
 	var ex = Record.Exception(shouldThrow);

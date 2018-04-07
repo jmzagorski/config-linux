@@ -1,3 +1,9 @@
+snippet jobs "List of all jobs"
+SELECT s.name, l.name
+FROM  msdb..sysjobs AS s 
+	LEFT JOIN master.sys.syslogins AS l on s.owner_sid = l.sid
+endsnippet
+
 snippet jobhistory "MSSQL query for jobshistory"
 SELECT j.name as 'JobName',
 	run_date,
@@ -37,13 +43,44 @@ GO
 -- Description:	${3: Descr}
 -- =============================================
 CREATE PROCEDURE ${4: schema}.${5: ProcedureName}
-	@${5: param1}
+	@${6: param1}
 AS
 BEGIN
 
 	SET NOCOUNT ON;
+	-- this will help runtime errors, specifically if there is a timeout the transaction will abort
+	SET XACT_ABORT ON; 
 
-	${0}
+	BEGIN TRY
+		DECLARE @trancount INT = @@TRANCOUNT;
+		-- if this is zero that means the caller was not in a transaction to begin with
+		-- if it is not zero that means a transaction is in progress and i want to save my trans so it has no affect on @@TRANCOUNT
+		IF @trancount = 0 
+			BEGIN TRANSACTION
+		ELSE
+			SAVE TRANSACTION $5;
+
+		-- store procedure logic
+		${0}
+
+		IF @trancount = 0
+			COMMIT;			 
+	END TRY
+	BEGIN CATCH
+		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		-- if the entire transaction is doomed
+		IF @xstate = -1
+			ROLLBACK;
+		-- the transaction is commitable and this procedure is the only one
+		IF @xstate = 1 and @trancount = 0
+			ROLLBACK
+		-- the transaction is commitable and this is a nested transaction
+		IF @xstate = 1 and @trancount > 0
+			ROLLBACK TRANSACTION $5;
+		-- rethrow the error to the caller so we do not swallow it
+		RAISERROR ('$5: %d: %s', 16, 1, @error, @message) ;
+	END CATCH
 END
 GO
 endsnippet
