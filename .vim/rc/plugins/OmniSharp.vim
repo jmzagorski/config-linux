@@ -4,7 +4,7 @@ call dein#add('OmniSharp/omnisharp-vim', {'on_ft':['cs','csharp']})
 filetype plugin on
 
 let g:OmniSharp_server_type = 'roslyn'
-let g:OmniSharp_server_path= expand('$SYSTEMDRIVE\bin\omnisharp\omnisharp.http-win-x86') "$HOME/.vim/bundle/repos/github.com/OmniSharp/omnisharp-vim/omnisharp-roslyn/artifacts/scripts/OmniSharp.Http.cmd')
+let g:OmniSharp_server_path= expand('$SYSTEMDRIVE\OmniSharp\omnisharp.http-win-x64\OmniSharp.exe')
 " Timeout in seconds to wait for a response from the server
 let g:OmniSharp_timeout = 1
 let g:OmniSharp_selecter_ui = 'ctrlp'
@@ -49,8 +49,8 @@ augroup omnisharp_commands
     autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
 
     " Navigate up and down by method/property/field
-    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
-    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+    autocmd FileType cs nnoremap <buffer> <leader>k :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <leader>j :OmniSharpNavigateDown<CR>
 augroup END
 
 " Contextual code actions (requires fzf, CtrlP or unite.vim)

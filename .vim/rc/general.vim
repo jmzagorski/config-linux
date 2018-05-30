@@ -52,6 +52,7 @@ set ignorecase " ignore case on searching
 set smartcase " do not ignore case when capitalization are in search
 set noswapfile
 set incsearch
+set hlsearch
 " hlsearch is in .gvimrc
 " enable menu at bottom of window (e.g. colorscheme <Tab>)
 set wildmenu
