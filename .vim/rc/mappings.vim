@@ -1,6 +1,10 @@
 " keep the reverse search character since it is the comma and that is my leader
 noremap \ ,
 
+" instead of escape
+inoremap jk <esc>
+inoremap kj <esc>
+
 " expansion of active dir
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> %R getcmdtype() == ':' ? expand('%:r').'.' : '%R'
