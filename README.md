@@ -25,11 +25,11 @@ Example
 ```
 config add .vimrc
 config commit -m "Add vimrc"
+config remote add origin https://github.com/yourusername/yourreponame.git
 config push
 ```
 > No extra tooling, no symlinks, files are tracked on a version control system, you can use different branches for different computers, you can replicate you configuration easily on new installation.
 
-<a name="repl-setup" />
 ## Clone
 To clone to a different linux computer use (similar for windows just different commands and %USERPROFILE% instead of $HOME):
 
@@ -50,7 +50,7 @@ When working on a system that does not support a file (e.g Linx and Microsoft_Po
 `config update-index --assume-unchanged [path]`
 
 ## Vim
-For my vim setup: [Official Wiki](https://github.com/Shougo/dein.vim)
+For my vim setup you will need [dein](https://github.com/Shougo/dein.vim)
 
 1. `cd ~/.vim`
 2. `curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh`
