@@ -39,7 +39,6 @@ call dein#end()
 call dein#save_state()
 
 filetype plugin indent on
-syntax on
 
 if dein#check_install()
   call dein#install()

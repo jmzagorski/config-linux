@@ -1,8 +1,25 @@
+" MUST BE BEFORE THE COLOR HIGHLIGHTING WHEN NOT USING MATCH
+syntax on
 set encoding=utf-8
 "automatically highlight matching braces/brackets/etc.
 set showmatch 
 "tens of a second to show matching parentheses
 set matchtime=2 
+
+" highlight white space at end of line and anything over 80 lines
+" MUST BE PUT BEFORE COLORSCHEME
+:au ColorScheme * highlight OverLength ctermbg=NONE ctermfg=lightgray guibg=#592929
+:au ColorScheme * highlight ErrorMsg ctermbg=red ctermfg=black guibg=#592929
+:au ColorScheme * highlight ExtraWhitespace ctermbg=lightgray guibg=#592929
+
+if has('matchadd')
+  :au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
+  :au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
+else
+  :au BufRead,BufNewFile * syntax match ExtraWhitespace /\s\+$/
+  :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
+endif
+
 colorscheme gruvbox
 " show line numbers
 set number
@@ -32,18 +49,6 @@ set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
 " make a mark for column 80
 set colorcolumn=80
 
-" highlight white space at end of line and anything over 80 lines
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-highlight ErrorMsg ctermbg=red ctermfg=white guibg=#592929
-highlight ExtraWhitespace ctermbg=grey guibg=grey
-
-if has('matchadd')
-  :au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
-  :au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
-else
-  :au BufRead,BufNewFile * syntax match ExtraWhitespace /\s\+$/
-  :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
-endif
 
 "" Terminal setttings {{{
 if !has("gui_running")

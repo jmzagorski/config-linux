@@ -7,7 +7,7 @@ inoremap kj <esc>
 
 " expansion of active dir
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-cnoremap <expr> %R getcmdtype() == ':' ? expand('%:r').'.' : '%R'
+cnoremap <expr> %T getcmdtype() == ':' ? expand('%:r').'.' : '%R'
 
 " source vim file so changes are propgated to opened vim
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
