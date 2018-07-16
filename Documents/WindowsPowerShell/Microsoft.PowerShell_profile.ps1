@@ -41,6 +41,8 @@ function Diff-WorkTree {
 }
 
 Set-Alias -Name config -Value Diff-WorkTree -Description "Allows config files to stay home"
+# this gives me the bash command history keys
+Set-PSReadLineOption -EditMode Emacs
 
 #Clear-Host
 
