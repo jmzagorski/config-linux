@@ -20,7 +20,7 @@ else
   :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
 endif
 
-colorscheme gruvbox
+colorscheme apprentice
 " show line numbers
 set number
 set lazyredraw

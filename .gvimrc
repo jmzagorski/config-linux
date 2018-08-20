@@ -39,7 +39,7 @@ set background=dark
 let g:solarized_termcolors=16
 " terminal color
 set t_Co=16
-silent! colorscheme gruvbox
+silent! colorscheme apprentice
 
 set noerrorbells
 set vb t_vb=
