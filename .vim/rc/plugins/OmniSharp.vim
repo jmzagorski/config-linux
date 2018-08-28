@@ -4,7 +4,6 @@ call dein#add('OmniSharp/omnisharp-vim', {'on_ft':['cs','csharp']})
 filetype plugin on
 
 let g:OmniSharp_server_type = 'roslyn'
-let g:OmniSharp_server_path= expand('$OMNISHARP')
 " Timeout in seconds to wait for a response from the server
 let g:OmniSharp_timeout = 1
 let g:OmniSharp_selecter_ui = 'ctrlp'
