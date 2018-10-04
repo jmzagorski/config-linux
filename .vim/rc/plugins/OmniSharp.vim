@@ -64,6 +64,7 @@ nnoremap <Leader>tp :OmniSharpAddToProject<CR>
 
 " Start the omnisharp server for the current solution
 nnoremap <Leader>ss :OmniSharpStartServer<CR>
+nnoremap <Leader>rs :OmniSharpRestartServer<CR>
 nnoremap <Leader>sp :OmniSharpStopServer<CR>
 
 " Add syntax highlighting for types and interfaces
