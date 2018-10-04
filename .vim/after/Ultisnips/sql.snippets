@@ -142,3 +142,12 @@ snippet doc "Snippet for documenting objects"
 -- ============================================================================
 ${0}
 endsnippet
+
+snippet desc "Snippet for documenting objects"
+EXEC sp_${1: AddOrupdate}extendedproperty
+    @name = N'MS_Description'
+    ,@value = N'${2}'
+    ,@level0type = N'Schema', @level0name = '${3}'
+    ,@level1type = N'Table',  @level1name = '${4}'
+    ,@level2type = N'Column', @level2name = '${5}';
+endsnippet
