@@ -6,9 +6,9 @@ if &t_Co > 2 || has("gui_running")
   set guioptions-=L  " remove left-hand scroll bar
   set hlsearch
   if has('gui_win32')
-    set guifont=DejaVu_Sans_Mono:h11
+    set guifont=Fira_Code:h11
   else
-    set guifont=DejaVu\ Sans\ Mono\ 11
+    set guifont=Fira\ Code\ 11
   endif
   if !has('windows')
     set transparency=2 " does not work on windows
