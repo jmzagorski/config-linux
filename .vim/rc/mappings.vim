@@ -1,16 +1,17 @@
 " keep the reverse search character since it is the comma and that is my leader
 noremap \ ,
 
-" instead of escape
-inoremap jk <esc>
-inoremap kj <esc>
-
 " expansion of active dir
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+" expansion of active dir with file extension. Useful for Aurelia switching
+" from view to view model files
 cnoremap <expr> %T getcmdtype() == ':' ? expand('%:r').'.' : '%R'
 
-" source vim file so changes are propgated to opened vim
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
+" show invisible characters
+nmap <leader>l :set list!<CR>
+" needs to be set before listchars
+set encoding=utf8
+set listchars=tab:¶\ ,eol:¬,trail:☠
 
 " remap buffer switching left/right/up/down
 nnoremap <C-h> <C-w>h
@@ -51,12 +52,6 @@ vnoremap // y/<C-R>"<CR>
 " semi colin at end of line
 inoremap <leader>; <C-o>A;
 
-" shift enter for new line above without insert mode
-nmap <S-Enter> O<Esc>
-
-" enter for new line below without insert mode
-nmap <CR> o<Esc>
-
 " window sizing if there is one
 if bufwinnr(1)
   nnoremap <S-Up> <C-W>+
@@ -73,10 +68,9 @@ nnoremap <C-Right> :tabnext<CR>
 " cursor, so undefine the mapping there.
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
-function! ReloadConfigs()
-    :source ~/.vimrc
-    if has("gui_running")
-        :source ~/.gvimrc
-    endif
-endfunction
-nmap <silent> <leader>sv call ReloadConfigs()
+" accessing and sourcing vimrc easily
+nmap <silent> <leader>sv :source $MYVIMRC
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+
+" change local directory on tab entering
+au TabEnter * if exists("t:wd") | exe "lcd" t:wd | endif

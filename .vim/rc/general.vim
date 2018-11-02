@@ -77,14 +77,17 @@ set splitbelow
 set splitright
 set linebreak
 au BufRead *.spark set filetype=html
+
 " TODO list
-"command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
+command! Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
 " faster, but requires act plugin
 " command prompt in windows vs linux
-if has('win32') || has('win64')
-  command! Todo Ack! "TODO | FIXME | @todo"
-else
-  command! Todo Ack! 'TODO\|FIXME\|@todo'
+if executable('Ack')
+  if has('win32') || has('win64') 
+    command! Todo Ack! "TODO | FIXME | @todo"
+  else
+    command! Todo Ack! 'TODO\|FIXME\|@todo'
+  endif
 endif
 
 " ---------------------- BACKUPS ----------------------
