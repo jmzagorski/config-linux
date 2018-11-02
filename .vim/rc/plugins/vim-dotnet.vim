@@ -1,1 +1,0 @@
-call dein#add('markwoodhall/vim-dotnet')
