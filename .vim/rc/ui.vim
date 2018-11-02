@@ -2,23 +2,34 @@
 syntax on
 set encoding=utf-8
 "automatically highlight matching braces/brackets/etc.
-set showmatch 
+set showmatch
 "tens of a second to show matching parentheses
-set matchtime=2 
+set matchtime=2
 
 " highlight white space at end of line and anything over 80 lines
 " MUST BE PUT BEFORE COLORSCHEME
-:au ColorScheme * highlight OverLength ctermbg=NONE ctermfg=lightgray guibg=#592929
-:au ColorScheme * highlight ErrorMsg ctermbg=red ctermfg=black guibg=#592929
-:au ColorScheme * highlight ExtraWhitespace ctermbg=lightgray guibg=#592929
+highlight OverLength ctermbg=lightred ctermfg=lightgray guibg=#592929
+highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 if has('matchadd')
-  :au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
-  :au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
+  au BufWinEnter * let w:m1=matchadd('ExtraWhitespace', '\s\+$', -1)
+  au BufWinEnter * let w:m2=matchadd('OverLength', '\%>80v.\+', -1)
 else
-  :au BufRead,BufNewFile * syntax match ExtraWhitespace /\s\+$/
-  :au BufRead,BufNewFile * syntax match OverLength /\%>80v.\+/
+  match ExtraWhitespace /\s\+$/
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  match OverLength /\%>80v.\+/
+  autocmd BufWinEnter * match OverLength /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
 endif
+
+au ColorScheme * highlight OverLength ctermbg=lightred ctermfg=lightgray guibg=#592929
+au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 colorscheme apprentice
 " show line numbers
@@ -47,7 +58,7 @@ set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
 " auto wrap lines at 80
 "set textwidth=80
 " make a mark for column 80
-set colorcolumn=80
+set colorcolumn=80,100
 
 
 "" Terminal setttings {{{
@@ -74,3 +85,36 @@ if !has("gui_running")
     !chcp 65001
   endif
 endif
+
+"explorer
+"let g:netrw_banner = 0
+"tree
+" new files are with %
+let g:netrw_liststyle = 3
+" open in previous window
+let g:netrw_browse_split = 4
+" split right
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+function! ToggleVExplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      set number
+      let t:expl_buf_num = bufnr("%")
+  endif
+endfunction
+
+nnoremap <leader>n :call ToggleVExplorer()<CR>

@@ -1,30 +1,22 @@
 " hide unnecessary gui in gVim
-if &t_Co > 2 || has("gui_running")
-  set guioptions-=m  " remove menu bar
-  set guioptions-=T  " remove toolbar
-  set guioptions-=r  " remove right-hand scroll bar
-  set guioptions-=L  " remove left-hand scroll bar
-  set hlsearch
-  if has('gui_win32')
-    set guifont=Fira_Code:h11
-  else
-    set guifont=Fira\ Code\ 11
-  endif
-  if !has('windows')
-    set transparency=2 " does not work on windows
-  endif
-
-  " if windows...
-  if has('win32') || has('win64')
-      " start maximized
-      autocmd GUIEnter * simalt ~x
-  endif
-
+set guioptions-=m  " remove menu bar
+set guioptions-=T  " remove toolbar
+set guioptions-=r  " remove right-hand scroll bar
+set guioptions-=L  " remove left-hand scroll bar
+set hlsearch
+if has('gui_win32')
+  set guifont=Fira_Code:h11
 else
-  let &t_ti.="\e[1 q"
-  let &t_SI.="\e[5 q"
-  let &t_EI.="\e[1 q"
-  let &t_te.="\e[0 q"
+  set guifont=Fira\ Code\ 11
+endif
+if !has('windows')
+  set transparency=2 " does not work on windows
+endif
+
+" if windows...
+if has('win32') || has('win64')
+    " start maximized
+    autocmd GUIEnter * simalt ~x
 endif
 
 if &term =~ '^screen'
@@ -43,3 +35,7 @@ silent! colorscheme apprentice
 
 set noerrorbells
 set vb t_vb=
+
+" accessing and sourcing gvimrc easily
+nmap <silent> <leader>sgv :source $MYGVIMRC
+nmap <silent> <leader>egv :e $MYGVIMRC<CR>
