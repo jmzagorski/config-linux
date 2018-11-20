@@ -41,4 +41,8 @@ export -f aurm
 export VISUAL=$EDITOR
 export SYSTEMD_EDITOR=$EDITOR
 export SUDO_EDITOR=$EDITOR
+export PATH=$PATH:$HOME/dotnet
+eval $(gpg-agent --daemon)
 
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
