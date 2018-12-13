@@ -1,3 +1,5 @@
+inoremap jk <ESC>
+inoremap kj <ESC>
 " keep the reverse search character since it is the comma and that is my leader
 noremap \ ,
 
