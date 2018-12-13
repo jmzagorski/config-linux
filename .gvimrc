@@ -13,6 +13,10 @@ if !has('windows')
   set transparency=2 " does not work on windows
 endif
 
+"ligature support for Fira Code
+set renderoptions=type:directx
+set encoding=utf-8
+
 " if windows...
 if has('win32') || has('win64')
     " start maximized
@@ -27,11 +31,13 @@ if &term =~ '^screen'
     execute "set <xLeft>=\e[1;*D"
 endif
 
+
 set background=dark
 let g:solarized_termcolors=16
 " terminal color
 set t_Co=16
 silent! colorscheme apprentice
+highlight ColorColumn guibg=Black
 
 set noerrorbells
 set vb t_vb=
