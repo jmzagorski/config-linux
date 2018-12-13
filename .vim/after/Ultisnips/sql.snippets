@@ -1,134 +1,129 @@
 snippet jobs "List of all jobs"
-SELECT s.name, l.name
-FROM  msdb..sysjobs AS s 
-	LEFT JOIN master.sys.syslogins AS l on s.owner_sid = l.sid
+select
+	s.name
+	,l.name
+from
+	msdb..sysjobs AS s
+	left outer join
+		master.sys.syslogins AS l
+			on s.owner_sid = l.sid
 endsnippet
 
 snippet jobhistory "MSSQL query for jobshistory"
-SELECT j.name as 'JobName',
-	run_date,
-	run_time,
-	msdb.dbo.agent_datetime(run_date, run_time) as 'RunDateTime'
-FROM msdb.dbo.sysjobs j
-	INNER JOIN msdb.dbo.sysjobhistory h
-		ON j.job_id = h.job_id
-WHERE j.enabled = 1  --Only Enabled Jobs
-ORDER BY JobName, RunDateTime desc
+select
+	j.name as 'JobName'
+	, run_date,
+	, run_time,
+	, msdb.dbo.agent_datetime(run_date, run_time) as 'RunDateTime'
+from
+	msdb.dbo.sysjobs j
+	inner join
+		msdb.dbo.sysjobhistory h
+			on j.job_id = h.job_id
+where
+	j.enabled = 1  --Only Enabled Jobs
+order by
+	JobName
+	, RunDateTime desc
 endsnippet
 
 snippet failedjobs "MSSQL query for failed jobs"
-SELECT j.name
-	,js.step_name
-	,jh.sql_severity
-	,jh.message
-	,jh.run_date
-	,jh.run_time
-FROM msdb.dbo.sysjobs AS j
-	INNER JOIN msdb.dbo.sysjobsteps AS js
-		ON js.job_id = j.job_id
-	INNER JOIN msdb.dbo.sysjobhistory AS jh
-		ON jh.job_id = j.job_id 
-WHERE jh.run_status = 0
-ORDER BY run_date desc
+select
+	j.name
+	, js.step_name
+	, jh.sql_severity
+	, jh.message
+	, jh.run_date
+	, jh.run_time
+from
+	msdb.dbo.sysjobs AS j
+	inner join
+		msdb.dbo.sysjobsteps AS js
+			on js.job_id = j.job_id
+	inner join
+		msdb.dbo.sysjobhistory AS jh
+			on jh.job_id = j.job_id
+where
+	jh.run_status = 0
+order by
+	run_date desc
 endsnippet
 
 snippet sp "MSSQL default for creating a stored procedure"
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- ============================================================================
--- Author:		  ${1: LastFirst}
--- Create date: ${2: CreateDate}
--- Description:	${3: Descr}
--- ============================================================================
-CREATE PROCEDURE ${4:dbo}.${5:}
+create procedure ${4:dbo}.${5:}
 	@${6}
-AS
-BEGIN
+as
+begin
 
-	SET NOCOUNT ON;
+	set nocount on;
 	-- this will help runtime errors, specifically if there is a timeout the transaction will abort
-	SET XACT_ABORT ON; 
+	set xact_abort on;
 
-	BEGIN TRY
-		DECLARE @trancount INT = @@TRANCOUNT;
+	begin try
+		declare @trancount int = @@TRANCOUNT;
 		-- if this is zero that means the caller was not in a transaction to begin with
 		-- if it is not zero that means a transaction is in progress and i want to save my trans so it has no affect on @@TRANCOUNT
-		IF @trancount = 0 
-			BEGIN TRANSACTION
-		ELSE
-			SAVE TRANSACTION $5;
+		if @trancount = 0
+			begin transaction
+		else
+			save transaction $5;
 
 		-- store procedure logic
 		${0}
 
-		IF @trancount = 0
-			COMMIT;			 
-	END TRY
-	BEGIN CATCH
-		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
-		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		if @trancount = 0
+			commit;
+	end try
+	begin catch
+		declare @error int, @message varchar(4000), @xstate int;
+		select
+			@error = error_number()
+			, @message = error_message()
+			, @xstate = xact_state();
 		-- if the entire transaction is doomed
-		IF @xstate = -1
-			ROLLBACK;
+		if @xstate = -1
+			rollback;
 		-- the transaction is commitable and this procedure is the only one
-		IF @xstate = 1 and @trancount = 0
-			ROLLBACK
+		if @xstate = 1 and @trancount = 0
+			rollback
 		-- the transaction is commitable and this is a nested transaction
-		IF @xstate = 1 and @trancount > 0
-			ROLLBACK TRANSACTION $5;
+		if @xstate = 1 and @trancount > 0
+			rollback transaction $5;
 		-- rethrow the error to the caller so we do not swallow it
-		RAISERROR ('$5: %d: %s', 16, 1, @error, @message) ;
-	END CATCH
-END
-GO
+		raiserror ('$5: %d: %s', 16, 1, @error, @message) ;
+	end catch
+end
+go
 endsnippet
 
 snippet vw "MSSQL default for creating a view"
--- ============================================================================
--- Author:		  ${1: LastFirst}
--- Create date: ${2: CreateDate}
--- Description:	${3: Descr}
--- ============================================================================
-CREATE VIEW ${4: schema}.v${5: ViewName}
-AS
-
-${0}
+create view ${4: schema}.${5: ViewName}
+as
+	${0}
 endsnippet
 
 snippet tr "MSSQL default for creating a trigger"
--- ============================================================================
--- Author:		  ${1: LastFirst}
--- Create date: ${2: CreateDate}
--- Description:	${3: Descr}
--- ============================================================================
-CREATE TRIGGER ${4: schema}.v${5: TriggerName}
-ON $4.${6: TableName}
+create trigger ${4: schema}.${5: TriggerName}
+on $4.${6: TableName}
 ${7: TriggerType}
-AS
-BEGIN
+as
+begin
 
-	SET NOCOUNT ON;
+	set nocount on;
 
 	${0}
 
-END
+end
 endsnippet
 
 snippet tvf "MSSQL inline table value function"
--- ============================================================================
--- Author:		  ${1: LastFirst}
--- Create date: ${2: CreateDate}
--- Description:	${3: Descr}
--- ============================================================================
-CREATE FUNCTION ${4:dbo}.${5}
-(	
+create function ${4:dbo}.${5}
+(
 	@${6}
 )
-RETURNS TABLE 
-AS
-RETURN 
+returns table
+as
+return
 (
 	${0}
 )
@@ -143,11 +138,21 @@ snippet doc "Snippet for documenting objects"
 ${0}
 endsnippet
 
+snippet head "Snippet for top of file to set flags"
+set nocount on;
+go
+set ansi_nulls on;
+go
+set quoted_identifier on;
+go
+${0}
+endsnippet
+
 snippet desc "Snippet for documenting objects"
 EXEC sp_${1: AddOrupdate}extendedproperty
-    @name = N'MS_Description'
-    ,@value = N'${2}'
-    ,@level0type = N'Schema', @level0name = '${3}'
-    ,@level1type = N'Table',  @level1name = '${4}'
-    ,@level2type = N'Column', @level2name = '${5}';
+	@name = N'MS_Description'
+	,@value = N'${2}'
+	,@level0type = N'Schema', @level0name = '${3}'
+	,@level1type = N'Table',  @level1name = '${4}'
+	,@level2type = N'Column', @level2name = '${5}';
 endsnippet
