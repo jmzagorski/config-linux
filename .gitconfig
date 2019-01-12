@@ -5,3 +5,7 @@
 	changed = magenta
 [init]
 	templatedir = ~/.git_template
+[winUpdater]
+	recentlySeenVersion = 2.20.1.windows.1
+[push]
+	followTags = true
