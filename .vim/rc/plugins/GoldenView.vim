@@ -1,3 +1,4 @@
+"Auto resizes buffers
 call dein#add('zhaocai/GoldenView.Vim', {
       \ 'on_map':['<Plug>ToggleGoldenViewAutoResize']
       \ })

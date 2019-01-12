@@ -4,31 +4,27 @@ if &compatible
  set nocompatible
 endif
 
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
-set runtimepath+=~/.vim/after
+set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=$HOME/.vim/after
 
 if has('win32') || has('win64')
-  set runtimepath+=~/.vim/rc
+  set runtimepath+=$HOME/.vim/rc
 else
-  set runtimepath+=~/.vim/rc/plugins/
+  set runtimepath+=$HOME/.vim/rc/plugins/
 endif
 
-"if dein#load_state('~/.cache/dein')
- call dein#begin('~/.cache/dein')
+call dein#begin('$HOME/.cache/dein')
 
- call dein#add('~/.cache/dein')
- call dein#add('Shougo/dein.vim')
+call dein#add('$HOME/.cache/dein/repos/github.com/Shougo/dein.vim')
 
-  "" FIXME: bug 
-  if has('win32') || has('win64')
-    runtime! plugins/*.vim
-  else
-    runtime! rc/plugins/*.vim
-  endif
+"" FIXME: bug
+if has('win32') || has('win64')
+  runtime! plugins/*.vim
+else
+  runtime! rc/plugins/*.vim
+endif
 
- call dein#end()
- call dein#save_state()
-"endif
+call dein#end()
 
 filetype plugin indent on
 syntax enable
