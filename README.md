@@ -4,7 +4,6 @@ Configuration files for various programs. For windows check out my powershell pr
 #### Table of Contents
 * [Setup](#setup)
 * [Cloning](#clone)
-* [Vim](#vim)
 
 ## Setup
 [Original Instructions](https://news.ycombinator.com/item?id=11070797)
@@ -23,8 +22,8 @@ Configuration files for various programs. For windows check out my powershell pr
 
 Example
 ```
-config add .vimrc
-config commit -m "Add vimrc"
+config add somefile
+config commit -m "Add somefile"
 config remote add origin https://github.com/yourusername/yourreponame.git
 config push
 ```
@@ -48,12 +47,3 @@ config config status.showUntrackedFiles no
 When working on a system that does not support a file (e.g Linx and Microsoft_PowerShell_profile) i usually run the command below and remove the file
 
 `config update-index --assume-unchanged [path]`
-
-## Vim
-For my vim setup you will need [dein](https://github.com/Shougo/dein.vim)
-
-1. `cd ~/.vim`
-2. `curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh`
-3. `sh ./installer.sh bundle`
-4. Open vim to auto download all plugins
-5. To use omnisharp follow instructions on [omnisharp-vim](https://github.com/OmniSharp/omnisharp-vim)
