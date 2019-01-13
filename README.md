@@ -1,17 +1,17 @@
 # Configuration Files (mostly dot files)
-Configuration files for various programs. For windows check out my powershell profile that defines a function as an alias so you can use the config command.
+Configuration files for my linux systems
 
 #### Table of Contents
-* [Setup](#setup)
+* [Setup Your Own](#setup)
 * [Cloning](#clone)
 
 ## Setup
 [Original Instructions](https://news.ycombinator.com/item?id=11070797)
 
-`git init --bare $HOME/.myconf`
-- where my ~/.myconf directory is a git bare repository. Then any file within the home folder can be versioned with normal commands like:
+`mkdir ~/.config && git init --bare $HOME/.config/config-linux`
+- where my ~/.config/config-linux directory is a git bare repository. Then any file within the home folder can be versioned with normal commands like:
 
-`alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'`
+`alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME'`
 - so config can be used from any directory to call git commands for this repo
 
 `config config status.showUntrackedFiles no`
@@ -30,20 +30,16 @@ config push
 > No extra tooling, no symlinks, files are tracked on a version control system, you can use different branches for different computers, you can replicate you configuration easily on new installation.
 
 ## Clone
-To clone to a different linux computer use (similar for windows just different commands and %USERPROFILE% instead of $HOME):
+To clone to a different linux computer use:
 
 ```
-git clone --separate-git-dir=$HOME/.myconf https://github.com/jmzagorski/configfiles.git $HOME/myconf-tmp
-cd ~/myconf-tmp
-mv .git ~/.myconf
+git clone --separate-git-dir=$HOME/.config/config-linux https://github.com/jmzagorski/config-linux.git /tmp/config-linux
+cd /tmp/config-linux
+mv .git ~/.config/config-linux
 cd
 shopt -s dotglob
-mv myconf-tmp/* .
-rm -r myconf-tmp
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' # if not already in .bashrc
+mv /tmp/config-linux/* .
+rm -r /tmp/config-linux
+alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME' # if not already in .bashrc
 config config status.showUntrackedFiles no
 ```
-
-When working on a system that does not support a file (e.g Linx and Microsoft_PowerShell_profile) i usually run the command below and remove the file
-
-`config update-index --assume-unchanged [path]`
