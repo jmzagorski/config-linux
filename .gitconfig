@@ -1,11 +1,9 @@
 [user]
 	email = jmzagorski@gmail.com
 	name = Jeremy Zagorski
-[color "status"]
-	changed = magenta
 [init]
 	templatedir = ~/.git_template
-[winUpdater]
-	recentlySeenVersion = 2.20.1.windows.1
 [push]
 	followTags = true
+[credential]
+	helper = cache --timeout 7200
