@@ -1,0 +1,2 @@
+#!/bin/bash
+export USERNAME="$(/mnt/c/Windows/System32/cmd.exe /c echo %username% | tr -d [:space:])"
