@@ -6,4 +6,6 @@
 [push]
 	followTags = true
 [credential]
-	helper = cache --timeout 7200
+	helper = cache --timeout 30000000
+[core]
+	autocrlf = true
