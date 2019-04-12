@@ -33,7 +33,7 @@ shopt -s checkwinsize
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
- # Load RVM into a shell session *as a function*
+# Load RVM into a shell session *as a function*
 [ -f ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 
@@ -55,12 +55,12 @@ HISTFILESIZE=2000
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+  xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -69,42 +69,42 @@ esac
 #force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+  xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
-*)
+  *)
     ;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -129,3 +129,82 @@ fi
 #===============================================================================
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+function setproxy() {
+  ##### VARIABLES
+  PROXY_ENV="http_proxy https_proxy ftp_proxy all_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY ALL_PROXY"
+  NO_PROXY_ENV="no_proxy NO_PROXY"
+  proxy_addr="http://$PROXY"
+  no_proxy_addr=$NOPROXY
+  #####
+
+  assignProxy() {
+    for envar in $PROXY_ENV
+    do
+      export $envar="$proxy_addr"
+    done
+    for envar in $NO_PROXY_ENV
+    do
+      export $envar="$no_proxy_addr"
+    done
+  }
+
+  set_npm() {
+    npmproxy="$(/usr/bin/npm config get proxy)"
+
+    if [[ -z "${proxy_addr}" && "${npmproxy}" != "null" ]]; then
+      echo "Removing proxy from npm..."
+      /usr/bin/npm config rm proxy
+      /usr/bin/npm config rm https-proxy
+    elif [[ "${proxy_addr}" && "${npmproxy}" = "null" ]]; then
+      echo "Adding ${proxy_addr} to npm..."
+      /usr/bin/npm config set proxy "http://${proxy_addr}"
+      /usr/bin/npm config set https-proxy "http://${proxy_addr}"
+    fi
+  }
+
+  set_git() {
+    gitproxy="$(/usr/bin/git config --global http.proxy)"
+
+    # if the proxy exits and git has it, unset it
+    if [[ -z "${proxy_addr}" && "${gitproxy}" ]]; then
+      echo "Removing proxy from git..."
+      /usr/bin/git config --global --unset http.proxy
+      #else if there is a proxy and git does not have it set it
+    elif [[ "${proxy_addr}" && -z "${gitproxy}" ]]; then
+      echo "Adding proxy to git..."
+      /usr/bin/git config --global http.proxy ${proxy_addr}
+    fi
+  }
+  # check the headers to see if http status is ok
+  # output the /dev/null to check exit code ($?)
+  # forbidden
+  # curl -s --head $proxy_value --connect-timeout 5 | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null
+
+  echo "looking for proxy $PROXY"
+
+  # parse the proxy into address and port
+  IFS=':'
+  read -a ADDR <<< "$PROXY"
+  unset IFS
+
+  ping -q -c 1 -W 4 ${ADDR[0]} > /dev/null
+
+  #on success export variables
+  if [ "$?" = "0" ]; then
+    echo "proxy found setting environment..."
+    assignProxy $proxy_addr $no_proxy_addr
+  else
+    echo "proxy not found unsetting environment"
+    proxy_addr=
+    no_proxy_addr=
+    assignProxy "" # this is what unset does
+  fi
+
+  set_git
+  set_npm
+
+  echo "done"
+}
+
+export -f setproxy
