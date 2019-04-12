@@ -4,6 +4,7 @@ firefox_dir=/mnt/c/Users/"${USERNAME}"/AppData/Local/Mozilla\ Firefox
 chrome_dir=/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application
 dotnet_dir=/mnt/c/Program\ Files/dotnet
 sqlcmd_dir=/mnt/c/Program\ Files/Microsoft\ SQL\ Server/Client\ SDK/ODBC/130/Tools/Binn
+msbuild_dir=/mnt/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2017/Enterprise/MSBuild/15.0/Bin
 
 #bug in wsl
 source /etc/environment
@@ -19,6 +20,9 @@ if [ -d "${dotnet_dir}" ]; then
 fi
 if [ -d "${sqlcmd_dir}" ]; then
   ln -sf "${sqlcmd_dir}/SQLCMD.EXE" ~/.bin/sqlcmd
+fi
+if [ -d "${msbuild_dir}" ]; then
+  ln -sf "${msbuild_dir}/MSBuild.exe" ~/.bin/msbuild
 fi
 
 src_dir=/mnt/c/Users/"${USERNAME}"/Source
