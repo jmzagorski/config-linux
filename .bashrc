@@ -66,7 +66,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
   if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -86,13 +86,14 @@ else
 fi
 unset color_prompt force_color_prompt
 
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
   xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
+   ;;
   *)
-    ;;
+   ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -127,8 +128,18 @@ if ! shopt -oq posix; then
   fi
 fi
 #===============================================================================
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+if [ -n "$PS1"  ]
+then
+  current_hour=$(date +"%H")
+  if [ $current_hour -gt 07 ] && [ $current_hour -lt 19 ]
+    then
+      sh ~/.vim/pack/minpac/start/snow/shell/snow_light.sh
+    else
+      sh ~/.vim/pack/minpac/start/snow/shell/snow_dark.sh
+  fi
+fi
+
+eval `dircolors ~/.vim/pack/minpac/start/snow/shell/dircolors`
 
 function setproxy() {
   ##### VARIABLES
