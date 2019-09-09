@@ -1,29 +1,29 @@
 #!/bin/bash
-mkdir -p ~/.bin
-firefox_dir=/mnt/c/Users/"${USERNAME}"/AppData/Local/Mozilla\ Firefox
+mkdir -p ~/bin
+firefox_dir=/mnt/c/Program\ Files/Mozilla\ Firefox
 chrome_dir=/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application
 dotnet_dir=/mnt/c/Program\ Files/dotnet
-sqlcmd_dir=/mnt/c/Program\ Files/Microsoft\ SQL\ Server/Client\ SDK/ODBC/130/Tools/Binn
-msbuild_dir=/mnt/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2017/Enterprise/MSBuild/15.0/Bin
+sqlcmd_dir=/mnt/c/Program\ Files/Microsoft\ SQL\ Server/Client\ SDK/ODBC/170/Tools/Binn
+msbuild_dir=/mnt/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/MSBuild/Current/Bin
 
 #bug in wsl
 source /etc/environment
 
-if [ -d "${firefox_dir}" ]; then
-  ln -sf "${firefox_dir}/firefox.exe" ~/.bin/firefox
-fi
-if [ -d "${chrome_dir}" ]; then
-  ln -sf "${chrome_dir}/chrome.exe" ~/.bin/chrome
-fi
-if [ -d "${dotnet_dir}" ]; then
-  ln -sf "${dotnet_dir}/dotnet.exe" ~/.bin/dotnet
-fi
-if [ -d "${sqlcmd_dir}" ]; then
-  ln -sf "${sqlcmd_dir}/SQLCMD.EXE" ~/.bin/sqlcmd
-fi
-if [ -d "${msbuild_dir}" ]; then
-  ln -sf "${msbuild_dir}/MSBuild.exe" ~/.bin/msbuild
-fi
+# if [ -d "${firefox_dir}" ]; then
+#   ln -sf "${firefox_dir}/firefox.exe" ~/bin/firefox
+# fi
+# if [ -d "${chrome_dir}" ]; then
+#   ln -sf "${chrome_dir}/chrome.exe" ~/bin/chrome
+# fi
+# if [ -d "${dotnet_dir}" ]; then
+#   ln -sf "${dotnet_dir}/dotnet.exe" ~/bin/dotnet
+# fi
+# if [ -d "${sqlcmd_dir}" ]; then
+#   ln -sf "${sqlcmd_dir}/SQLCMD.EXE" ~/bin/sqlcmd
+# fi
+# if [ -d "${msbuild_dir}" ]; then
+#   ln -sf "${msbuild_dir}/MSBuild.exe" ~/bin/msbuild
+# fi
 
 src_dir=/mnt/c/Users/"${USERNAME}"/Source
 
