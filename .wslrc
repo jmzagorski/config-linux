@@ -1,32 +1,37 @@
 #!/bin/bash
-mkdir -p ~/bin
-firefox_dir=/mnt/c/Program\ Files/Mozilla\ Firefox
-chrome_dir=/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application
-dotnet_dir=/mnt/c/Program\ Files/dotnet
-sqlcmd_dir=/mnt/c/Program\ Files/Microsoft\ SQL\ Server/Client\ SDK/ODBC/170/Tools/Binn
-msbuild_dir=/mnt/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/MSBuild/Current/Bin
 
 #bug in wsl
 source /etc/environment
-
-# if [ -d "${firefox_dir}" ]; then
-#   ln -sf "${firefox_dir}/firefox.exe" ~/bin/firefox
-# fi
-# if [ -d "${chrome_dir}" ]; then
-#   ln -sf "${chrome_dir}/chrome.exe" ~/bin/chrome
-# fi
-# if [ -d "${dotnet_dir}" ]; then
-#   ln -sf "${dotnet_dir}/dotnet.exe" ~/bin/dotnet
-# fi
-# if [ -d "${sqlcmd_dir}" ]; then
-#   ln -sf "${sqlcmd_dir}/SQLCMD.EXE" ~/bin/sqlcmd
-# fi
-# if [ -d "${msbuild_dir}" ]; then
-#   ln -sf "${msbuild_dir}/MSBuild.exe" ~/bin/msbuild
-# fi
 
 src_dir=/mnt/c/Users/"${USERNAME}"/Source
 
 if [ -d "${src_dir}" ]; then
   ln -sf $src_dir ~/source
 fi
+
+# bug in 1903, symlinks to exe wont work
+function dotnet() {
+  /mnt/c/Program\ Files/dotnet/dotnet.exe "$@"
+}
+
+function sqlcmd() {
+  /mnt/c/Program\ Files/Microsoft\ SQL\ Server/Client\ SDK/ODBC/170/Tools/Binn/SQLCMD.EXE "$@"
+}
+
+function msbuild() {
+  /mnt/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe "$@"
+}
+
+function chrome() {
+  /mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe
+}
+
+function firefox() {
+  /mnt/c/Program\ Files/Mozilla\firefox.exe Firefox
+}
+
+export -f dotnet
+export -f sqlcmd
+export -f msbuild
+export -f chrome
+export -f firefox
