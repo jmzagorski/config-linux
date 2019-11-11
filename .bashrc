@@ -128,18 +128,6 @@ if ! shopt -oq posix; then
   fi
 fi
 #===============================================================================
-if [ -n "$PS1"  ]
-then
-  current_hour=$(date +"%H")
-  if [ $current_hour -gt 07 ] && [ $current_hour -lt 19 ]
-    then
-      sh ~/.vim/pack/minpac/start/snow/shell/snow_light.sh
-    else
-      sh ~/.vim/pack/minpac/start/snow/shell/snow_dark.sh
-  fi
-fi
-
-eval `dircolors ~/.vim/pack/minpac/start/snow/shell/dircolors`
 
 function setproxy() {
   ##### VARIABLES
