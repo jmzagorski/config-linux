@@ -38,7 +38,7 @@ cd /tmp/config-linux
 mv .git ~/.config/config-linux
 cd
 shopt -s dotglob
-mv /tmp/config-linux/* .
+cp -r /tmp/config-linux/* .
 rm -r /tmp/config-linux
 alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME' # if not already in .bashrc
 config config status.showUntrackedFiles no
