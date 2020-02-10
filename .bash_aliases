@@ -1,4 +1,4 @@
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
