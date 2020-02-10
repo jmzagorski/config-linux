@@ -33,7 +33,7 @@ config push
 To clone to a different linux computer use:
 
 ```
-git clone --separate-git-dir=$HOME/.config/config-linux https://github.com/jmzagorski/config-linux.git /tmp/config-linux
+git clone --separate-git-dir=$HOME/.config/config-linux git+ssh://git@github.com/jmzagorski/config-linux.git /tmp/config-linux
 cd /tmp/config-linux
 mv .git ~/.config/config-linux
 cd
