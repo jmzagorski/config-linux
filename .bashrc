@@ -193,15 +193,23 @@ function setproxy() {
   if [ "$?" = "0" ]; then
     echo "proxy found setting environment..."
     assignProxy $proxy_addr $no_proxy_addr
+    echo "Acquire::http::Proxy \"${PROXY}\";" >> /etc/apt/apt.conf.d/proxy.conf
   else
     echo "proxy not found unsetting environment"
     proxy_addr=
     no_proxy_addr=
+    rm /etc/apt/apt.conf.d/proxy.conf
     assignProxy "" # this is what unset does
   fi
 
-  set_git
-  set_npm
+
+  if ! [ -x "$(command -v git)"  ]; then
+    set_git
+  fi
+
+  if ! [ -x "$(command -v npm)"  ]; then
+    set_npm
+  fi
 
   echo "done"
 }
