@@ -23,11 +23,15 @@ function msbuild() {
 }
 
 function chrome() {
-  /mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe
+  /mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe "$@"
 }
 
 function firefox() {
-  /mnt/c/Program\ Files/Mozilla\firefox.exe Firefox
+  /mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe "$@"
+}
+
+function edge() {
+    /mnt/c/Program\ Files\ \(x86\)/Microsoft/Edge/Application/msedge.exe "$@"
 }
 
 export -f dotnet
