@@ -150,6 +150,7 @@ fi
 
 function setproxy() {
     ##### VARIABLES
+    PROXY=$1
     PROXY_ENV="http_proxy https_proxy ftp_proxy all_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY ALL_PROXY"
     NO_PROXY_ENV="no_proxy NO_PROXY"
     proxy_addr="http://$PROXY"
@@ -167,70 +168,76 @@ function setproxy() {
         done
     }
 
-set_npm() {
-    npmproxy="$(/usr/bin/npm config get proxy)"
+    set_docker() {
+        config_file=~/.docker/config.json
+        proxyVal=
+        if [[ -z "${PROXY}" ]]; then
+            echo "Removing proxy from docker config..."
+            proxyVal=""
+            # sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"\"/" $config_file
+        elif [[ "${PROXY}" ]]; then
+            proxyVal="\1:\/\/${PROXY}"
+            echo "Adding proxy to docker config..."
+            # sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"\1:\/\/${PROXY}\"/" $config_file
+        fi
 
-    if [[ -z "${proxy_addr}" && "${npmproxy}" != "null" ]]; then
-        echo "Removing proxy from npm..."
-        /usr/bin/npm config rm proxy
-        /usr/bin/npm config rm https-proxy
-    elif [[ "${proxy_addr}" && "${npmproxy}" = "null" ]]; then
-        echo "Adding ${proxy_addr} to npm..."
-        /usr/bin/npm config set proxy "http://${proxy_addr}"
-        /usr/bin/npm config set https-proxy "http://${proxy_addr}"
+        sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"${proxyVal}\"/" $config_file
+    }
+
+    set_npm() {
+        npmproxy="$(/usr/bin/npm config get proxy)"
+
+        if [[ -z "${proxy_addr}" ]]; then
+            echo "Removing proxy from npm..."
+            /usr/bin/npm config rm proxy
+            /usr/bin/npm config rm https-proxy
+        elif [[ "${proxy_addr}" ]]; then
+            echo "Adding ${proxy_addr} to npm..."
+            /usr/bin/npm config set proxy "http://${proxy_addr}"
+            /usr/bin/npm config set https-proxy "http://${proxy_addr}"
+        fi
+    }
+
+    set_git() {
+        gitproxy="$(/usr/bin/git config --global http.proxy)"
+
+        # if the proxy exits and git has it, unset it
+        if [[ -z "${proxy_addr}" ]]; then
+            echo "Removing proxy from git..."
+            /usr/bin/git config --global --unset http.proxy
+            #else if there is a proxy and git does not have it set it
+        elif [[ "${proxy_addr}" ]]; then
+            echo "Adding proxy to git..."
+            /usr/bin/git config --global http.proxy ${proxy_addr}
+        fi
+    }
+
+    #on success export variables
+    if [[ -z $PROXY ]]; then
+        echo "Remove proxy from environment"
+        proxy_addr=
+        no_proxy_addr=
+        # rm /etc/apt/apt.conf.d/proxy.conf
+        assignProxy "" # this is what unset does
+    else
+        echo "setting proxy environment..."
+        assignProxy $proxy_addr $no_proxy_addr
+        # echo "Acquire::http::Proxy \"${PROXY}\";" >> /etc/apt/apt.conf.d/proxy.conf
     fi
-}
 
-set_git() {
-    gitproxy="$(/usr/bin/git config --global http.proxy)"
-
-    # if the proxy exits and git has it, unset it
-    if [[ -z "${proxy_addr}" && "${gitproxy}" ]]; then
-        echo "Removing proxy from git..."
-        /usr/bin/git config --global --unset http.proxy
-        #else if there is a proxy and git does not have it set it
-    elif [[ "${proxy_addr}" && -z "${gitproxy}" ]]; then
-        echo "Adding proxy to git..."
-        /usr/bin/git config --global http.proxy ${proxy_addr}
+    if command -v git &> /dev/null; then
+        set_git
     fi
-}
-# check the headers to see if http status is ok
-# output the /dev/null to check exit code ($?)
-# forbidden
-# curl -s --head $proxy_value --connect-timeout 5 | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null
 
-echo "looking for proxy $PROXY"
+    if command -v npm &> /dev/null; then
+        set_npm
+    fi
 
-  # parse the proxy into address and port
-  IFS=':'
-  read -a ADDR <<< "$PROXY"
-  unset IFS
+    if command -v docker &> /dev/null; then
+        set_docker
+    fi
 
-  ping -q -c 1 -W 4 ${ADDR[0]} > /dev/null
-
-  #on success export variables
-  if [ "$?" = "0" ]; then
-      echo "proxy found setting environment..."
-      assignProxy $proxy_addr $no_proxy_addr
-      echo "Acquire::http::Proxy \"${PROXY}\";" >> /etc/apt/apt.conf.d/proxy.conf
-  else
-      echo "proxy not found unsetting environment"
-      proxy_addr=
-      no_proxy_addr=
-      rm /etc/apt/apt.conf.d/proxy.conf
-      assignProxy "" # this is what unset does
-  fi
-
-
-  if ! [ -x "$(command -v git)"  ]; then
-      set_git
-  fi
-
-  if ! [ -x "$(command -v npm)"  ]; then
-      set_npm
-  fi
-
-  echo "done"
+    echo "done"
 }
 
 export -f setproxy

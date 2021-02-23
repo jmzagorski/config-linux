@@ -3,12 +3,6 @@
 #bug in wsl
 source /etc/environment
 
-src_dir=/mnt/c/Users/"${USERNAME}"/Source
-
-if [ -d "${src_dir}" ]; then
-  ln -sf $src_dir ~/source
-fi
-
 # bug in 1903, symlinks to exe wont work
 function dotnet() {
   /mnt/c/Program\ Files/dotnet/dotnet.exe "$@"

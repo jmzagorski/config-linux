@@ -7,5 +7,3 @@
 	followTags = true
 [credential]
 	helper = cache --timeout 30000000
-[http]
-	sslVerify = false
