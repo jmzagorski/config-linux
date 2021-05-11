@@ -170,18 +170,20 @@ function setproxy() {
 
     set_docker() {
         config_file=~/.docker/config.json
+        win_config_file=/mnt/c/Users/$USERNAME/.docker/config.json
         proxyVal=
         if [[ -z "${PROXY}" ]]; then
             echo "Removing proxy from docker config..."
             proxyVal=""
-            # sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"\"/" $config_file
+            export DOCKER_CERT_PATH=
         elif [[ "${PROXY}" ]]; then
             proxyVal="\1:\/\/${PROXY}"
             echo "Adding proxy to docker config..."
-            # sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"\1:\/\/${PROXY}\"/" $config_file
+            export DOCKER_CERT_PATH=/usr/local/share/ca-certificates/
         fi
 
         sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"${proxyVal}\"/" $config_file
+        sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"${proxyVal}\"/" $win_config_file
     }
 
     set_npm() {
@@ -212,6 +214,20 @@ function setproxy() {
         fi
     }
 
+    set_apt() {
+        config_file=/etc/apt/apt.conf
+        proxyVal=
+        if [[ -z "${PROXY}" ]]; then
+            echo "Removing proxy from apt..."
+            proxyVal="false"
+        elif [[ "${PROXY}" ]]; then
+            proxyVal="\1:\/\/${PROXY}"
+            echo "Adding proxy to apt..."
+        fi
+
+        sed "s/\(Acquire::http::Proxy \).*/\1${proxyVal}/g" /etc/apt/apt.conf
+    }
+
     #on success export variables
     if [[ -z $PROXY ]]; then
         echo "Remove proxy from environment"
@@ -235,6 +251,10 @@ function setproxy() {
 
     if command -v docker &> /dev/null; then
         set_docker
+    fi
+
+    if command -v apt &> /dev/null; then
+        set_apt
     fi
 
     echo "done"

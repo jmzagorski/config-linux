@@ -28,3 +28,4 @@ fi
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export NOPROXY=localhost,127.0.0.1
