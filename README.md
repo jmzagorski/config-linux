@@ -8,10 +8,10 @@ Configuration files for my linux systems
 ## Setup
 [Original Instructions](https://news.ycombinator.com/item?id=11070797)
 
-`mkdir ~/.config && git init --bare $HOME/.config/config-linux`
-- where my ~/.config/config-linux directory is a git bare repository. Then any file within the home folder can be versioned with normal commands like:
+`mkdir ~/.config && git init --bare $HOME/.config/dotfiles`
+- where my ~/.config/dotfiles directory is a git bare repository. Then any file within the home folder can be versioned with normal commands like:
 
-`alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME'`
+`alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles/ --work-tree=$HOME'`
 - so config can be used from any directory to call git commands for this repo
 
 `config config status.showUntrackedFiles no`
@@ -33,13 +33,14 @@ config push
 To clone to a different linux computer use:
 
 ```
-git clone --separate-git-dir=$HOME/.config/config-linux git+ssh://git@github.com/jmzagorski/config-linux.git /tmp/config-linux
+git clone --separate-git-dir=$HOME/.config/dotfiles https://github.com/jmzagorski/config-linux.git /tmp
 cd /tmp/config-linux
-mv .git ~/.config/config-linux
+mv .git ~/.config/dotfiles
 cd
 shopt -s dotglob
 cp -r /tmp/config-linux/* .
 rm -r /tmp/config-linux
-alias config='/usr/bin/git --git-dir=$HOME/.config/config-linux/ --work-tree=$HOME' # if not already in .bashrc
 config config status.showUntrackedFiles no
 ```
+
+_config alias is already setup in the .bash_alias file_
