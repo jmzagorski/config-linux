@@ -168,24 +168,6 @@ function setproxy() {
         done
     }
 
-    set_docker() {
-        config_file=~/.docker/config.json
-        win_config_file=/mnt/c/Users/$USERNAME/.docker/config.json
-        proxyVal=
-        if [[ -z "${PROXY}" ]]; then
-            echo "Removing proxy from docker config..."
-            proxyVal=""
-            export DOCKER_CERT_PATH=
-        elif [[ "${PROXY}" ]]; then
-            proxyVal="\1:\/\/${PROXY}"
-            echo "Adding proxy to docker config..."
-            export DOCKER_CERT_PATH=/usr/local/share/ca-certificates/
-        fi
-
-        sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"${proxyVal}\"/" $config_file
-        sed -i "s/\(http\)\(s\{0,1\}\)\(Proxy\":\s\)\".*\"/\1\2\3\"${proxyVal}\"/" $win_config_file
-    }
-
     set_npm() {
         npmproxy="$(/usr/bin/npm config get proxy)"
 
@@ -247,10 +229,6 @@ function setproxy() {
 
     if command -v npm &> /dev/null; then
         set_npm
-    fi
-
-    if command -v docker &> /dev/null; then
-        set_docker
     fi
 
     if command -v apt &> /dev/null; then
