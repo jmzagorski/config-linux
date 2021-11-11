@@ -1,17 +1,11 @@
-[user]
-        email = jeremy.zagorski@parker.com
-	name = Jeremy Zagorski
-[color "status"]
-        changed = magenta
 [init]
-	templatedir = ~/.git_template
+	templatedir = ~/git-templates
         defaultBranch = main
 [push]
 	followTags = true
 [credential]
-	helper = cache --timeout 30000000
+	helper = cache --timeout 600
 [core]
-        autocrlf = input
         preloadindex = true
         fscache = true
 [gc]
