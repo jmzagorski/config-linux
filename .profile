@@ -29,3 +29,5 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export NOPROXY=localhost,127.0.0.1
+# for dockerignore files per build
+export DOCKER_BUILDKIT=1
