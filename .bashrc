@@ -92,7 +92,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[32m\]\u\[\033[00m\]:\[\033[34m\]\W\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u:\W\$ '
 fi
@@ -194,20 +195,6 @@ function setproxy() {
             echo "Adding proxy to git..."
             /usr/bin/git config --global http.proxy ${proxy_addr}
         fi
-    }
-
-    set_apt() {
-        config_file=/etc/apt/apt.conf
-        proxyVal=
-        if [[ -z "${PROXY}" ]]; then
-            echo "Removing proxy from apt..."
-            proxyVal="false"
-        elif [[ "${PROXY}" ]]; then
-            proxyVal="\1:\/\/${PROXY}"
-            echo "Adding proxy to apt..."
-        fi
-
-        sed "s/\(Acquire::http::Proxy \).*/\1${proxyVal}/g" /etc/apt/apt.conf
     }
 
     #on success export variables
