@@ -1,12 +1,25 @@
 [init]
 	templatedir = ~/git-templates
-        defaultBranch = main
+	defaultBranch = main
 [push]
 	followTags = true
+	autoSetupRemote = true
 [credential]
-	helper = cache --timeout 600
+	helper = store
 [core]
         preloadindex = true
         fscache = true
+	autocrlf = false
 [gc]
         auto = 256
+[pull]
+	rebase = true
+[alias]
+	gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D
+[user]
+	signingkey = B0D6934999BD756F
+	name = Jeremy M Zagorski
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true

@@ -28,8 +28,18 @@ function edge() {
     /mnt/c/Program\ Files\ \(x86\)/Microsoft/Edge/Application/msedge.exe "$@"
 }
 
+git() {
+    command git -c "gpg.program=/mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe" "$@"
+}
+
 export -f dotnet
 export -f sqlcmd
 export -f msbuild
 export -f chrome
 export -f firefox
+export -f git
+
+# YUBIKEY WSL
+[ -e /usr/local/bin/gpg ] && rm /usr/local/bin/gpg; ln -s /mnt/c/Program\ Files\ \(x86\)/GnuPG/bin/gpg.exe /usr/local/bin/gpg
+[ -e /usr/local/bin/gpg2 ] && rm /usr/local/bin/gpg2; ln -s gpg /usr/local/bin/gpg2
+sudo ln -s gpg /usr/local/bin/gpg2
