@@ -17,3 +17,5 @@
         fscache = true
 [gc]
         auto = 256
+[pull]
+	rebase = true
