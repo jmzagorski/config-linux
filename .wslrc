@@ -28,7 +28,6 @@ function edge() {
     /mnt/c/Program\ Files\ \(x86\)/Microsoft/Edge/Application/msedge.exe "$@"
 }
 
-=======
 function fixresolv() {
     grep "nameserver 1.1.1.1" /etc/resolv.conf || echo "nameserver 1.1.1.1" >> /etc/resolv.conf
 }
