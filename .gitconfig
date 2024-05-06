@@ -1,11 +1,11 @@
 [user]
         email = jeremy.zagorski@parker.com
-	name = Jeremy Zagorski
+	name = Jeremy M Zagorski
 [color "status"]
         changed = magenta
 [init]
-	templatedir = ~/.git_template
-        defaultBranch = main
+	templatedir = ~/.git-templates
+	defaultBranch = main
 [push]
 	followTags = true
 [credential]

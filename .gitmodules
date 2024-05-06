@@ -1,0 +1,3 @@
+[submodule "/home/jmzagorski/.git-templates"]
+	path = /home/jmzagorski/.git-templates
+	url = https://github.com/jmzagorski/git-templates.git
