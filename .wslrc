@@ -49,4 +49,4 @@ export -f chrome
 export -f firefox
 export -f git
 export -f setup_gpg
-export -f fixresolv
+ln -sf /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/

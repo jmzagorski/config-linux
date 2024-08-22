@@ -1,6 +1,7 @@
 [user]
         email = jeremy.zagorski@parker.com
 	name = Jeremy M Zagorski
+	signingkey = A480750916309E242D55BA36B0D6934999BD756F
 [color "status"]
         changed = magenta
 [init]
@@ -19,3 +20,24 @@
         auto = 256
 [pull]
 	rebase = true
+[commit]
+	gpgsign = true
+	verbose = true
+[alias]
+; thanks to https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore?answertab=scoredesc#tab-top
+        prune-local = "git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -D"
+[merge]
+	conflictStyle = zdiff3
+[rebase]
+	autostash = true
+[diff]
+	algorithm = histogram
+	submodule = log
+
+[includeIf "gitdir:~/projects/parker/"]
+  path = ~/.gitconfig-work
+
+[includeIf "gitdir:~/projects/person/"]
+  path = ~/.gitconfig-personal
+[status]
+	submoduleSummary = true

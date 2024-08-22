@@ -1,2 +1,3 @@
 #!/bin/bash
-export USERNAME="$(/mnt/c/Windows/System32/cmd.exe /c echo %username% | tr -d [:space:])"
+export USERNAME="$(/mnt/c/Windows/System32/cmd.exe /c echo %username% 2>/dev/null | tr -d [:space:])"
+export WINTMP="/mnt/c/Users/$USERNAME/AppData/Local/Temp"
