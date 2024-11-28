@@ -1,9 +1,6 @@
 [user]
-        email = jeremy.zagorski@parker.com
 	name = Jeremy M Zagorski
 	signingkey = A480750916309E242D55BA36B0D6934999BD756F
-[color "status"]
-        changed = magenta
 [init]
 	templatedir = ~/.git-templates
 	defaultBranch = main
@@ -34,10 +31,11 @@
 	algorithm = histogram
 	submodule = log
 
-[includeIf "gitdir:~/projects/parker/"]
-  path = ~/.gitconfig-work
-
-[includeIf "gitdir:~/projects/person/"]
+[includeIf "gitdir:~/"]
   path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/projects/parker/"]
+  path = ~/.gitconfig-parker
+
 [status]
 	submoduleSummary = true
