@@ -262,6 +262,7 @@ function setproxy() {
 
 export -f setproxy
 export PATH="$PATH:/opt/mssql-tools/bin:$HOME/.npm-packages/bin:/opt/mssql-tools/bin"
+export GPG_TTY="$(tty)"
 
 # for vims unimpaired
 stty -ixon
