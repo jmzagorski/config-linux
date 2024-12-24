@@ -33,14 +33,13 @@ config push
 To clone to a different linux computer use:
 
 ```
-git clone --separate-git-dir=$HOME/.config/dotfiles https://github.com/jmzagorski/config-linux.git /tmp
+git clone --separate-git-dir=$HOME/.config/dotfiles https://github.com/jmzagorski/config-linux.git /tmp/config-linux
 cd /tmp/config-linux
 mv .git ~/.config/dotfiles
 cd
 shopt -s dotglob
 cp -r /tmp/config-linux/* .
 rm -r /tmp/config-linux
+source ~/.bash_alias
 config config status.showUntrackedFiles no
 ```
-
-_config alias is already setup in the .bash_alias file_
