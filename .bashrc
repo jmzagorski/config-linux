@@ -268,3 +268,7 @@ export GPG_TTY="$(tty)"
 stty -ixon
 
 PATH="$HOME/.local/bin:$PATH"
+
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
