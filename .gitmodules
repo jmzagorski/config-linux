@@ -1,3 +1,4 @@
-[submodule "/home/jmzagorski/.git-templates"]
-	path = /home/jmzagorski/.git-templates
+[submodule ".git-templates"]
+	path = .git-templates
 	url = https://github.com/jmzagorski/git-templates.git
+	branch = main
