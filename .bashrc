@@ -1,5 +1,5 @@
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+[[ $- != *i* ]] && exit
 
 function aurm() {
     if [ ! -d "~/builds/$1" ]; then
@@ -36,12 +36,6 @@ shopt -s checkwinsize
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-    *) return;;
-esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -269,6 +263,7 @@ stty -ixon
 
 PATH="$HOME/.local/bin:$PATH"
 
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
+if command -v gpgconf >/dev/null 2>&1; then
+	export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+	gpgconf --launch gpg-agent
+fi
