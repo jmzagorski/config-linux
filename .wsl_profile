@@ -1,3 +1,4 @@
 #!/bin/bash
 export USERNAME="$(/mnt/c/Windows/System32/cmd.exe /c echo %username% 2>/dev/null | tr -d [:space:])"
 export WINTMP="/mnt/c/Users/$USERNAME/AppData/Local/Temp"
+export PROMPT_COMMAND=${PROMPT_COMMAND:+"$PROMPT_COMMAND "}'printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"'
