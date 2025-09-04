@@ -8,7 +8,7 @@
 	followTags = true
 	autoSetupRemote = true
 [credential]
-	helper = cache --timeout 3600
+	helper = cache --timeout 86400
 [core]
 	autocrlf = input
 	preloadindex = true
