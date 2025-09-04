@@ -8,21 +8,21 @@
 	followTags = true
 	autoSetupRemote = true
 [credential]
-	helper = cache --timeout 30000000
+	helper = cache --timeout 3600
 [core]
-        autocrlf = input
-        preloadindex = true
-        fscache = true
+	autocrlf = input
+	preloadindex = true
+	fscache = true
 [gc]
-        auto = 256
+	auto = 256
 [pull]
 	rebase = true
 [commit]
 	gpgsign = true
 	verbose = true
 [alias]
-; thanks to https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore?answertab=scoredesc#tab-top
-        prune-local = "git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -D"
+	; thanks to https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore?answertab=scoredesc#tab-top
+	prune-local = "git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -D"
 [merge]
 	conflictStyle = zdiff3
 [rebase]
@@ -31,11 +31,11 @@
 	algorithm = histogram
 	submodule = log
 
-[includeIf "gitdir:~/"]
-  path = ~/.gitconfig-personal
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = ~/.gitconfig-personal
 
-[includeIf "gitdir:~/projects/parker/"]
-  path = ~/.gitconfig-parker
+[includeIf "hasconfig:remote.*.url:https://**dev.azure.com/**"]
+	path = ~/.gitconfig-parker
 
 [status]
 	submoduleSummary = true
