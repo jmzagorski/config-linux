@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONTAINER_NAME="${SQLCMD_CONTAINER:-mssql}"
+SQLCMD_BIN="/opt/mssql-tools18/bin/sqlcmd"
+args=()
+input_file=""
+
+while (($#)); do
+  case "$1" in
+    -i)
+      input_file="$2"
+      shift 2
+      ;;
+    *)
+      args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ -n "${input_file}" ]]; then
+  # Stream host file to container sqlcmd
+  exec docker exec -i "$CONTAINER_NAME" "$SQLCMD_BIN" "${args[@]}" -E -i /dev/stdin < "$input_file"
+else
+  exec docker exec -i "$CONTAINER_NAME" "$SQLCMD_BIN" "${args[@]}"
+fi
