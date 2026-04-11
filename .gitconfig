@@ -13,6 +13,7 @@
 	autocrlf = input
 	preloadindex = true
 	fscache = true
+	editor = vim
 [gc]
 	auto = 256
 [pull]
