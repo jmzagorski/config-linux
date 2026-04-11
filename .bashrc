@@ -267,3 +267,9 @@ if command -v gpgconf >/dev/null 2>&1; then
 	export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 	gpgconf --launch gpg-agent
 fi
+
+if [ -f "$HOME/.config/.env" ]; then
+  set -a
+  . "$HOME/.config/.env"
+  set +a
+fi
