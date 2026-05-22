@@ -23,5 +23,5 @@ if [[ -n "${input_file}" ]]; then
   # Stream host file to container sqlcmd
   exec docker exec -i "$CONTAINER_NAME" "$SQLCMD_BIN" "${args[@]}" -E -i /dev/stdin < "$input_file"
 else
-  exec docker exec -i "$CONTAINER_NAME" "$SQLCMD_BIN" "${args[@]}"
+  exec docker exec -it "$CONTAINER_NAME" "$SQLCMD_BIN" "${args[@]}"
 fi
