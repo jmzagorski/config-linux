@@ -273,3 +273,11 @@ if [ -f "$HOME/.config/.env" ]; then
   . "$HOME/.config/.env"
   set +a
 fi
+
+# https://askubuntu.com/questions/339546/how-do-i-see-the-history-of-the-commands-i-have-run-in-tmux
+# avoid duplicates..
+export HISTCONTROL=ignoredups:erasedups
+# append history entries..
+shopt -s histappend
+# After each command, save and reload history
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
